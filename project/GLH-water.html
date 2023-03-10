@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>GLH-water Dataset</title>
+	<link type="text/css" href="/project/head/system.css" rel="stylesheet"/>
+	<link type="text/css" href="/project/head/custom.css" rel="stylesheet"/>
+	<script type="text/javascript" src="/project/head/custom.js"></script>
+</head>
+
+<body marginheight="0">
+<div align="center"><h1>GLH-Water: A Large-Scale Dataset for Global Surface Water Detection in
+	Large-Size Very-High-Resolution Satellite Imagery <br></h1></div>
+
+<p style="text-align: center">Yansheng Li, Bo Dang, Wanchun Li, Yongjun Zhang</p>
+
+	<!--
+<div style="border: 18px solid #FFFFFF"></div>
+<p style="font-size: 12px; color: orange; text-align: center">The <b>Five-Billion-Pixels</b> dataset is released!</p>
+        -->
+
+<h2>Introduction</h2>
+<p>Global surface water detection in very-high-resolution (VHR) satellite imagery can directly serve major applications such as refined flood mapping and water resource assessment. Although achievements have been made in detecting surface water in small-size satellite images corresponding to local geographic scales, datasets and methods suitable for mapping and analyzing global surface water have yet to be explored. To encourage the development of
+	this task and facilitate the implementation of relevant applications, we propose the <b>GLH-water</b> dataset that consists of 250 satellite images and manually labeled surface water
+	annotations that are distributed globally and contain water
+	bodies exhibiting a wide variety of types (e.g. , rivers, lakes,
+	and ponds in forests, irrigated fields, bare areas, and urban
+	areas). Each image is of the size 12,800 × 12,800 pixels
+	at 0.3 meter spatial resolution. To build a benchmark for
+	<b>GLH-water</b>, we perform extensive experiments employing
+	representative surface water detection models, popular semantic segmentation models, and ultra-high resolution segmentation models. Furthermore, we also design a strong
+	baseline with the novel pyramid consistency loss (PCL)
+	to initially explore this challenge. Finally, we implement
+	the cross-dataset and pilot area generalization experiments,
+	and the superior performance illustrates the strong generalization and practical application of <b>GLH-water</b>.</p>
+
+<h3>GLH-water Dataset</h3>
+<p>To fill the lack of pertinent datasets and enhance the generalizability of segmentation models in detecting global surface water, we first present the GLH-water dataset that contains <b>250 VHR (GSD=0.3m) satellite images</b> with the size
+	of <b>12,800 × 12,800</b> pixels. These images are collected from various locations worldwide and manual annotations are included.</p>
+<p>GLH-water dataset has five remarkable and important advantages:</p>
+	<ul id="advantages">
+		<li><b>The size of samples is large.</b></li>
+		<li><b>Inclusion of a large number of samples.</b></li>
+		<li><b>The geographical coverage of the samples is extensive and evenly distributed.</b></li>
+		<li><b>The temporal span of image acquisition is broad.</b></li>
+		<li><b>Inclusion of a diverse type of surface water landscapes.</b></li>
+	</ul>
+  
+
+<div style="border: 9px solid #FFFFFF"></div>
+<div id = "tab1" class = "tabMenu">
+	<ul>
+	<li class="on"><h4>Geographical Distribution</h4></li>
+        <li class="off"><h4>Annotation Visualization</h4></li>
+        <li class="off"><h4>Download Links</h4></li>
+        </ul>
+	<div id="firstPage" class="show">
+	<img src="/figure/distribution.png" width="800px">
+        </div>
+        <div id="secondPage" class= "hide">
+	    <img src="/figure/samples.png" width="800px">
+        </div>
+        <div id="thirdPage" class = "hide">
+		
+	<li style="margin-top: 5px" class = "dot"><span class = "lin">Link: <a href=" "><b>Coming Soon</b></a> </span></li>
+		<!--
+        <p style="margin-top: 5px">The <b>Five-Billion-Pixels</b> dataset is released under the open source license. It can be downloaded from:</p>
+        <li style="margin-top: 15px" class = "dot"><span class = "lin">Link: <a href="https://whueducn-my.sharepoint.com/:f:/g/personal/xinyi_tong_whu_edu_cn/EodxwsN54_5Ph0LAMROBi9sBWPzgCYAbBW-LK75qcrOG8w"><b>Onedrive</b></a></span></li>
+        <li style="margin-top: 12px" class = "dot"><span class = "lin">Link: <a href="https://pan.baidu.com/s/1CX-qH8WQdSfQV7AspeHXeA"><b>Baidudrive</b></a> (only available in China region, extraction code: FBPS)</span></li>
+                -->
+	</div>
+</div>
+<div style="border: 9px solid #FFFFFF"></div>
+		
+<h3>Benchmark</h3>
+<p> Many models are developed to consider the characteristics of water bodies in VHR satellite images in the field of
+	remote sensing. We choose three representative models as baseline models. In the realm of computer vision, numerous sophisticated semantic segmentation models are perpetually created, which can easily be
+	adapted for satellite images. We use five advanced models to
+	construct the benchmark results. In addition, given the VHR
+	and the large size of images in GLH-water, we also evaluate the state-of-the-art semantic segmentation algorithms
+	specifically designed for ultra-high resolution images.</p>
+
+<div style="border: 9px solid #FFFFFF"></div>
+<div id = "tab2" class = "tabMenu">
+	<ul>
+	<li class="on"><h4>Baseline Methods</h4></li>
+        <li class="off"><h4>A Strong Baseline with the PCL</h4></li>
+        <li class="off"><h4>Benchmark Results</h4></li>
+        </ul>
+	<div id="firstPage" class="show">
+	<p>
+		<li><b>Segmentation methods specifically proposed for surface water detection:</b> MECNet, MSResNet, MSCENet.</li>
+		<li><b>Generic segmentation methods in computer vision:</b> FCN8s, PSPNet, DeepLabv3+, HRNet-48, STDC-1446.</li>
+		<li><b>Ultra-high Resolution Segmentation methods:</b> MagNet, FCtL, ISDNet.</li>
+	</p>
+    </div>
+        <div id="secondPage" class= "hide">
+	<p>We develop a competitive strong baseline with the new
+		<b>pyramid consistency loss (PCL) </b>that is specifically designed to explore the detection
+		performance of surface water bodies in large-size VHR
+		satellite images. The pyramid consistency encompasses
+		the <b>intra-layer consistency</b> (i.e., visual field consistency
+		between pyramidal layers) and the <b>inter-layer consistency</b>
+		(i.e., spatial consistency within a pyramidal layer).</p>
+	<img src="/figure/PCL.png" width="800px">
+        </div>
+        <div id="thirdPage" class = "hide">
+			<img src="/figure/benchmark.png" width="800px">
+        </div>
+</div>
+<div style="border: 9px solid #FFFFFF"></div>
+
+<h3>Generalization experiments on GLH-water</h3>
+
+<div style="border: 9px solid #FFFFFF"></div>
+<div id = "tab3" class = "tabMenu">
+	<ul>
+	<li class="on"><h4>Cross-dataset evaluation</h4></li>
+    <li class="off"><h4>Pilot area evaluation</h4></li>
+        </ul>
+	<div id="firstPage" class="show">
+		<img src="/figure/cross-dataset.png" width="800px">
+    </div>
+        <div id="secondPage" class= "hide">
+			<img src="/figure/pilot.png" width="800px">
+</div>
+<div style="border: 9px solid #FFFFFF"></div>
+
+<h3>Citation</h3>
+<pre>
+@article{2023GLH,
+  title = {},
+  author = {},
+  journal = {},
+  year = {2023}
+}
+</pre>
+
+<h3>Acknowledge</h3>
+<p>Wuhan University-Huawei Geoinformatics Innovation Laboratory.</p>
+<p>This web page is highly based on <a href="https://github.com/x-ytong/x-ytong.github.io">x-ytong.github.io</a>. We thank their web projects!</p>
+
+<h3>Contact</h3>
+<p>E-mail: bodang@whu.edu.cn</p>
+
+<div style="border:40px solid #FFFFFF"></div>
+
+
+</body>
+</html>
