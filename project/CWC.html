@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CWC</title>
+	<link type="text/css" href="/project/head/system2.css" rel="stylesheet"/>
+	<link type="text/css" href="/project/head/custom2.css" rel="stylesheet"/>
+	<script type="text/javascript" src="/project/head/custom2.js"></script>
+</head>
+
+<body marginheight="0">
+<div align="center"><h1>Progressive Learning with Cross-Window Consistency for Semi-Supervised Semantic Segmentation<br></h1></div>
+
+<p style="text-align: center">Bo Dang, Yansheng Li, Yongjun Zhang, Jiayi Ma</p>
+
+<p style="text-align: center">
+	<a href="#introduction" style="color: #6d2d12;">Introduction</a> |
+	<a href="#Methodology" style="color: #6d2d12;">Methodology</a> |
+	<a href="#Data and Code" style="color: #6d2d12;">Data & Code</a> |
+	<a href="#citation" style="color: #6d2d12;">Citation</a> |
+	<a href="#contact" style="color: #6d2d12;">Contact</a>
+</p>
+
+<h2 id="introduction">Introduction</h2>
+<p>Semi-supervised semantic segmentation focuses on the exploration of a small amount of labeled data and a large amount of unlabeled data, which is more in line with the demands of real-world image understanding applications. However, it is still hindered by the inability to fully and effectively leverage unlabeled images. In this paper, we reveal that cross-window consistency (CWC) is helpful in comprehensively extracting auxiliary supervision from unlabeled data. Additionally, we propose a novel CWC-driven progressive learning framework to optimize the deep network by mining weak-to-strong constraints from massive unlabeled data. More specifically, this paper presents a biased cross-window consistency (BCC) loss with an importance factor, which helps the deep network explicitly constrain confidence maps from overlapping regions in different windows to maintain semantic consistency with larger contexts. In addition, we propose a dynamic pseudo-label memory bank (DPM) to provide high-consistency and high-reliability pseudo-labels to further optimize the network. Extensive experiments on three representative datasets of urban views, medical scenarios, and satellite scenes with consistent performance gain demonstrate the superiority of our framework.</p>
+
+<h2 id="Methodology">Methodology</h2>
+<img src="/figure/figure_method.png" width="800px">
+<p>We propose a novel CWC-driven progressive learning framework to optimize the deep network by mining weak-to-strong constraints from massive unlabeled data.</p>
+	<ul id="advantages">
+		<li><b>Stage I: Biased Cross-Window Consistency Supervision (Weak Constraint)</b></li>
+		<li><b>Stage II: Dynamic Pseudo-Label Memory Bank (Strong Constraint)</b></li>
+	</ul>
+
+
+<h2 id="Data and Code">Data and Code</h2>
+<div style="border: 9px solid #FFFFFF"></div>
+<div id = "tab2" class = "tabMenu">
+	<ul>
+	<li class="on"><h4>Data</h4></li>
+        <li class="off"><h4>Code</h4></li>
+		<li class="off"><h4>Weights</h4></li>
+        </ul>
+	<div id="firstPage" class="show">
+	<p>
+		<li style="margin-top: 5px" class = "dot"><span class = "lin">Cityscapes: <a href="https://www.cityscapes-dataset.com/login/"><b>Link</b></a> </span></li>
+		<li style="margin-top: 5px" class = "dot"><span class = "lin">MoNuSeg: <a href="https://drive.google.com/file/d/1EDJ2YKP6P2PYPT-4j7wNTy6WMeGFUNaR/view"><b>Link</b></a> </span></li>
+		<li style="margin-top: 5px" class = "dot"><span class = "lin">DeepGlobe: <a href="https://drive.google.com/file/d/1JG3SphS2WhRiKK-Ir1_7cmzAf0mz_4ED/view"><b>Link</b></a> </span></li>
+	</p>
+    </div>
+	<div id="secondPage" class= "hide">
+		<li style="margin-top: 5px" class = "dot"><span class = "lin">Code: <a href=""><b>Comming Soon</b></a> </span></li>
+	</div>
+	<div id="thirdPage" class= "hide">
+		<li style="margin-top: 5px" class = "dot"><span class = "lin">Trained Weights: <a href=""><b>Comming Soon</b></a> </span></li>
+	</div>
+<div style="border: 9px solid #FFFFFF"></div>
+
+<h2 id="citation">Citation</h2>
+<pre>
+@article{dang2024cwc,
+	title={Progressive Learning with Cross-Window Consistency for Semi-Supervised Semantic Segmentation},
+	author={Dang, Bo and Li, Yansheng and Zhang, Yongjun and Ma, Jiayi},
+	booktitle={XXX},
+	volume={XXX},
+	number={XXX},
+	pages={XXX},
+	year={2024}
+	}
+</pre>
+
+<h2 id="contact">Contact</h2>
+<p>If you have any problems or feedback with the project, please contact: bodang@whu.edu.cn</p>
+
+<script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5pj3juyh36p&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script><div style="border:40px solid #FFFFFF"></div>
+</body>
+</html>
