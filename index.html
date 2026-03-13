@@ -1,0 +1,1710 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Awesome Remote Sensing Foundation Models</title>
+    <meta
+      name="description"
+      content="A curated, searchable view of remote sensing foundation models, datasets, benchmarks, and survey papers."
+    />
+    <style>
+:root {
+  --bg: #f5f7f4;
+  --bg-strong: #fbfcfa;
+  --panel: rgba(255, 255, 255, 0.78);
+  --panel-strong: rgba(255, 255, 255, 0.94);
+  --panel-muted: rgba(248, 250, 247, 0.92);
+  --text: #101311;
+  --muted: #5f665f;
+  --line: rgba(16, 19, 17, 0.08);
+  --line-strong: rgba(16, 19, 17, 0.14);
+  --accent: #147a52;
+  --accent-strong: #0f5f41;
+  --accent-soft: rgba(20, 122, 82, 0.1);
+  --shadow-sm: 0 10px 30px rgba(15, 23, 15, 0.04);
+  --shadow-md: 0 24px 60px rgba(15, 23, 15, 0.06);
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --content-width: 1380px;
+  --sidebar-width: 300px;
+  --sans: "Avenir Next", "Segoe UI Variable", "SF Pro Display", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+  --mono: "SF Mono", "JetBrains Mono", "Cascadia Code", "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--sans);
+  background:
+    radial-gradient(circle at top left, rgba(170, 193, 182, 0.22), transparent 28%),
+    radial-gradient(circle at 85% 14%, rgba(224, 232, 226, 0.72), transparent 24%),
+    linear-gradient(180deg, #fafbf9 0%, var(--bg) 52%, #f1f4f0 100%);
+}
+
+body::before,
+body::after,
+.page-noise::before {
+  content: "";
+  position: fixed;
+  inset: auto;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::before {
+  top: -180px;
+  right: -120px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20, 122, 82, 0.14), transparent 72%);
+}
+
+body::after {
+  bottom: -220px;
+  left: -140px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(180, 194, 184, 0.18), transparent 72%);
+}
+
+.page-noise::before {
+  inset: 0;
+  background-image: linear-gradient(rgba(16, 19, 17, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 19, 17, 0.028) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.14;
+}
+
+.page-shell {
+  width: min(calc(100% - 40px), var(--content-width));
+  margin: 28px auto 56px;
+  display: grid;
+  gap: 28px;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--panel-strong), var(--panel));
+  backdrop-filter: blur(18px);
+  box-shadow: 0 8px 24px rgba(15, 23, 15, 0.025);
+}
+
+.source-row,
+.hero-actions,
+.section-meta,
+.citation-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 240px);
+  gap: 32px;
+  align-items: start;
+}
+
+.content,
+.sidebar,
+.updates-panel,
+.content-section,
+.citation-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 96px;
+  gap: 22px;
+}
+
+.hero {
+  display: block;
+  max-width: 980px;
+}
+
+.hero-copy,
+.controls,
+.updates-panel,
+.content-section,
+.citation-panel {
+  padding: 26px;
+}
+
+.hero-copy {
+  padding: 4px 0 2px;
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 18%);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.73rem;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.hero h2 {
+  margin-top: 12px;
+  max-width: none;
+  font-size: clamp(2.4rem, 4.2vw, 4.05rem);
+  line-height: 1;
+}
+
+.nav-card h2,
+.note-card h2,
+.section-header h2,
+.updates-panel h2,
+.citation-panel h2 {
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  line-height: 1.08;
+}
+
+h3 {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+p {
+  margin: 0;
+}
+
+.lede,
+.hero-text,
+.muted,
+.markdown-paragraph,
+.update-item,
+.stat-card span,
+.control span,
+.toggle span,
+.copy-status {
+  color: var(--muted);
+}
+
+.hero-text,
+.markdown-paragraph {
+  line-height: 1.7;
+}
+
+.hero-text {
+  margin-top: 18px;
+  max-width: 64ch;
+  font-size: 1rem;
+}
+
+.hero-actions {
+  margin-top: 22px;
+}
+
+.hero-meta {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.pill,
+.stat-chip,
+.nav-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.76);
+  color: var(--text);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ghost-link,
+.primary-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 0.92rem;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.ghost-link {
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--text);
+}
+
+.primary-link {
+  background: linear-gradient(180deg, #121916, #0b100d);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #f6faf6;
+}
+
+.ghost-link:hover,
+.primary-link:hover,
+.clear-button:hover,
+.copy-button:hover,
+.section-nav a:hover {
+  transform: translateY(-1px);
+}
+
+.ghost-link:hover {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: var(--line-strong);
+}
+
+.primary-link:hover {
+  background: linear-gradient(180deg, #0f1512, #070b09);
+}
+
+.card-header,
+.sidebar-header,
+.section-header,
+.results-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+}
+
+.card-header,
+.sidebar-header {
+  margin-bottom: 16px;
+}
+
+.section-nav {
+  display: grid;
+  gap: 8px;
+  max-height: calc(100vh - 210px);
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.section-nav a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0 10px 14px;
+  border-radius: 0;
+  border: 0;
+  border-left: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.section-nav a.active {
+  border-left-color: rgba(20, 122, 82, 0.6);
+  background: rgba(20, 122, 82, 0.03);
+}
+
+.nav-count {
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+}
+
+.nav-card,
+.note-card {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.note-card pre {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+pre {
+  margin: 12px 0 0;
+  overflow: auto;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: #101311;
+  color: #f3f6f3;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.stat-card {
+  display: grid;
+  gap: 6px;
+  padding: 0 18px 0 0;
+  min-height: auto;
+  border-radius: 0;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+}
+
+.stat-card strong {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+.stat-card:last-child {
+  border-right: 0;
+  padding-right: 0;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: minmax(300px, 1.5fr) minmax(220px, 0.7fr) repeat(2, auto) auto;
+  gap: 12px;
+  align-items: end;
+  position: sticky;
+  top: 24px;
+  z-index: 15;
+  border-radius: 22px;
+}
+
+.control,
+.toggle {
+  display: grid;
+  gap: 8px;
+}
+
+input[type="search"],
+select {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--text);
+  font: inherit;
+}
+
+input[type="search"]::placeholder {
+  color: #8a918a;
+}
+
+input[type="search"]:focus,
+select:focus {
+  outline: 2px solid rgba(20, 122, 82, 0.14);
+  border-color: rgba(20, 122, 82, 0.32);
+}
+
+.toggle {
+  min-height: 50px;
+  padding: 0 14px;
+  align-self: end;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+.clear-button,
+.copy-button {
+  min-height: 50px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.clear-button:hover,
+.copy-button:hover {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: var(--line-strong);
+}
+
+.updates-list {
+  display: grid;
+  gap: 12px;
+}
+
+.update-item {
+  display: grid;
+  gap: 8px;
+  padding: 0 0 14px;
+  border-radius: 0;
+  border: 1px solid var(--line);
+  border-width: 0 0 1px 0;
+  background: transparent;
+}
+
+.update-date {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.results-bar {
+  padding: 8px 0 4px;
+}
+
+.results-summary {
+  margin-top: 6px;
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.sections-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.content-section {
+  animation: rise-in 320ms ease both;
+  padding: 30px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.content-section::after,
+.updates-panel::after,
+.citation-panel::after {
+  display: none;
+}
+
+.sections-stack > .content-section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.section-title-group {
+  display: grid;
+  gap: 10px;
+}
+
+.updates-panel,
+.citation-panel {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.table-wrap {
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.table-scroll {
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 14px 16px;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(247, 250, 247, 0.98);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+tbody td {
+  padding: 16px;
+  vertical-align: top;
+  line-height: 1.65;
+  border-bottom: 1px solid rgba(16, 19, 17, 0.06);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background 160ms ease;
+}
+
+tbody tr:hover {
+  background: rgba(20, 122, 82, 0.04);
+}
+
+.cell-muted {
+  color: #8b918b;
+}
+
+.empty-state {
+  padding: 28px;
+  text-align: center;
+  border: 1px dashed var(--line-strong);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--muted);
+}
+
+mark {
+  padding: 0 0.08em;
+  border-radius: 0.25em;
+  background: rgba(20, 122, 82, 0.14);
+  color: inherit;
+}
+
+ins {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.14em;
+  text-decoration-color: rgba(20, 122, 82, 0.34);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1220px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat-card {
+    border-right: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .page-shell {
+    width: min(calc(100% - 20px), var(--content-width));
+    margin: 10px auto 28px;
+    gap: 14px;
+  }
+
+  .hero-copy,
+  .controls,
+  .updates-panel,
+  .content-section,
+  .citation-panel {
+    padding: 20px 0;
+  }
+
+  .hero h2 {
+    max-width: none;
+    white-space: normal;
+    font-size: clamp(2.1rem, 11vw, 3.4rem);
+  }
+
+  .results-bar,
+  .section-header,
+  .card-header,
+  .sidebar-header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .controls {
+    position: static;
+    padding: 20px 18px;
+  }
+
+  table,
+  thead,
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody {
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  tbody tr {
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.88);
+    overflow: hidden;
+  }
+
+  tbody td {
+    display: grid;
+    grid-template-columns: minmax(90px, 34%) 1fr;
+    gap: 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(16, 19, 17, 0.06);
+  }
+
+  tbody td:last-child {
+    border-bottom: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-card,
+  .note-card {
+    padding: 0;
+  }
+}
+
+@media (min-width: 861px) {
+  .hero h2 {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 560px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .source-row,
+  .hero-actions,
+  .citation-actions {
+    align-items: stretch;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="page-noise" aria-hidden="true"></div>
+    <div class="page-shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Searchable Research Index</p>
+          <h2 id="siteTitle">Awesome Remote Sensing Foundation Models</h2>
+          <p id="siteDescription" class="hero-text">
+            Built from your markdown catalog, this interface keeps the original taxonomy while making it easier to scan, filter, and revisit high-value papers and projects.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="#sectionsPanel">Browse the catalog</a>
+            <a class="ghost-link" href="#citation">View citation</a>
+          </div>
+          <div class="hero-meta">
+            <div id="statsGrid" class="stats-grid" aria-label="Catalog statistics"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <main class="content">
+          <section class="panel controls">
+            <label class="control search-control">
+              <span>Search papers and projects</span>
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="Search title, abbreviation, venue, task, or section"
+                autocomplete="off"
+              />
+            </label>
+
+            <label class="control">
+              <span>Focus section</span>
+              <select id="sectionFilter"></select>
+            </label>
+
+            <label class="toggle">
+              <input id="onlyOfficial" type="checkbox" />
+              <span>Official publications only</span>
+            </label>
+
+            <label class="toggle">
+              <input id="onlyCode" type="checkbox" />
+              <span>Only entries with code or weights</span>
+            </label>
+
+            <button id="clearFilters" class="clear-button" type="button">Reset filters</button>
+          </section>
+
+          <section id="updatesPanel" class="panel updates-panel"></section>
+
+          <div class="results-bar">
+            <div>
+              <p class="eyebrow">Catalog workspace</p>
+              <p id="resultsSummary" class="results-summary"></p>
+            </div>
+            <a class="ghost-link" href="#citation">Jump to citation</a>
+          </div>
+
+          <div id="sectionsPanel" class="sections-stack"></div>
+          <section id="citationPanel"></section>
+        </main>
+
+        <aside class="sidebar">
+          <section class="nav-card">
+            <div class="sidebar-header">
+              <div>
+                <p class="eyebrow">Browse</p>
+                <h2>Sections</h2>
+              </div>
+              <p id="navMeta" class="muted">Live catalog navigation</p>
+            </div>
+            <nav id="sectionNav" class="section-nav" aria-label="Catalog sections"></nav>
+          </section>
+
+          <section class="note-card">
+            <p class="eyebrow">Source</p>
+            <h2>Live GitHub sync</h2>
+            <p class="muted">This page reads the source <code>README.md</code> directly from GitHub when it loads.</p>
+            <p class="muted"><a id="sourceReadmeLink" class="ghost-link" href="#" target="_blank" rel="noreferrer">Open source markdown</a></p>
+            <p class="muted"><a id="sourceRepoLink" class="ghost-link" href="#" target="_blank" rel="noreferrer">Open source repository</a></p>
+          </section>
+        </aside>
+      </div>
+    </div>
+    <script>
+window.RSFM_SITE_CONFIG = {
+  "siteTitle": "Awesome Remote Sensing Foundation Models",
+  "sourceRepoUrl": "https://github.com/Jack-bo1220/Awesome-Remote-Sensing-Foundation-Models",
+  "sourceReadmeWebUrl": "https://github.com/Jack-bo1220/Awesome-Remote-Sensing-Foundation-Models/blob/main/README.md",
+  "markdownSources": [
+    "https://raw.githubusercontent.com/Jack-bo1220/Awesome-Remote-Sensing-Foundation-Models/main/README.md"
+  ]
+};
+    </script>
+    <script>
+window.RSFM_SITE_DATA = {
+  "sourceFile": "README_updated_2026-03-13.md",
+  "generatedAt": "2026-03-13T23:54:35+08:00",
+  "markdown": "[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Jack-bo1220/Awesome-Remote-Sensing-Foundation-Models/graphs/commit-activity)\n[![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/Jack-bo1220/Awesome-Remote-Sensing-Foundation-Models)\n<img alt=\"GitHub watchers\" src=\"https://img.shields.io/github/watchers/Jack-bo1220/Awesome-Remote-Sensing-Foundation-Models?style=social\"> <img alt=\"GitHub stars\" src=\"https://img.shields.io/github/stars/Jack-bo1220/Awesome-Remote-Sensing-Foundation-Models?style=social\"> <img alt=\"GitHub forks\" src=\"https://img.shields.io/github/forks/Jack-bo1220/Awesome-Remote-Sensing-Foundation-Models?style=social\">\n\n# <p align=center>`Awesome Remote Sensing Foundation Models`</p>\n\n:star2:**A collection of papers, datasets, benchmarks, code, and pre-trained weights for Remote Sensing Foundation Models (RSFMs).**\n\n## 📢 Latest Updates\n:fire::fire::fire: Last Updated on 2026.03.13 :fire::fire::fire:\n\n- **2026.03.13**: We comprehensively refreshed this repository by tracing recent works and citation chains from [SkySense](https://github.com/Jack-bo1220/SkySense) and [SkySenseGPT](https://arxiv.org/abs/2406.10100). Newly added entries include [MAESTRO](https://arxiv.org/abs/2508.10894), [Alliance](https://doi.org/10.1109/tpami.2025.3639595), [DeepAndes](https://doi.org/10.1109/jstars.2025.3619423), [FUSE-RSVLM](https://arxiv.org/abs/2512.24022), [RSCoVLM](https://doi.org/10.3390/rs18020222), [GeoAlignCLIP](https://arxiv.org/abs/2603.09566), [AgriFM](https://doi.org/10.1016/j.rse.2026.115234), [Earth-Agent](https://arxiv.org/abs/2509.23141), [OmniEarth](https://arxiv.org/abs/2603.09471), and [Plantation Bench](https://doi.org/10.1109/iccvw69036.2025.00310).\n- **2026.03.13**: We also updated several entries from arXiv to official publication pages, including [RingMo-Aerial](https://doi.org/10.1109/tpami.2025.3602237), [FlexiMo](https://doi.org/10.1109/tgrs.2026.3656362), [RingMoE](https://doi.org/10.1109/tpami.2025.3643453), [MAPEX](https://doi.org/10.1109/tgrs.2026.3652100), [LHRS-Bot-Nova](https://doi.org/10.1016/j.isprsjprs.2025.06.003), [ChatEarthNet](https://doi.org/10.5194/essd-17-1245-2025), and [Foundation Models for Remote Sensing and Earth Observation: A survey](https://doi.org/10.1109/mgrs.2025.3576766).\n- **2026.03.13**: We further cross-checked several related awesome repositories and added missing works such as [DGTRS-CLIP](https://arxiv.org/abs/2503.19311), [GeoRSMLLM](https://arxiv.org/abs/2503.12490), [GeoReason](https://arxiv.org/abs/2601.04118), [OpenEarthAgent](https://arxiv.org/abs/2602.17665), [GeoEyes](https://arxiv.org/abs/2602.14201), [REOBench](https://arxiv.org/abs/2505.16793), [ChatEarthBench](https://doi.org/10.1109/mgrs.2026.3650840), and a new `Embeddings data` section.\n- **2025.08.04**: Our recent work, [SkySense++](https://www.nature.com/articles/s42256-025-01078-8), a follow-up to our [SkySense](https://github.com/Jack-bo1220/SkySense) model, is accepted by Nature Machine Intelligence. We have released the code and pretrained weights at [this repository](https://github.com/kang-wu/SkySensePlusPlus).\n\n## Table of Contents\n- **Models**\n  - [Remote Sensing Vision Foundation Models](#remote-sensing-vision-foundation-models)\n  - [Remote Sensing Vision-Language Foundation Models](#remote-sensing-vision-language-foundation-models)\n  - [Remote Sensing Generative Foundation Models](#remote-sensing-generative-foundation-models)\n  - [Remote Sensing Vision-Location Foundation Models](#remote-sensing-vision-location-foundation-models)\n  - [Remote Sensing Vision-Audio Foundation Models](#remote-sensing-vision-audio-foundation-models)\n  - [Remote Sensing Task-specific Foundation Models](#remote-sensing-task-specific-foundation-models)\n  - [Remote Sensing Agents](#remote-sensing-agents)\n- **Datasets & Benchmarks**\n  - [Benchmarks for RSFMs](#benchmarks-for-rSFMs)\n  - [(Large-scale) Pre-training Datasets](#large-scale-Pre-training-Datasets)\n  - [Embeddings data](#embeddings-data)\n- **Others**\n  - [Relevant Projects](#relevant-projects)\n  - [Survey Papers](#survey-papers)\n  \n## Remote Sensing <ins>Vision</ins> Foundation Models\n\n|Abbreviation|Title|Publication|Paper|Code & Weights|\n|:---:|---|:---:|:---:|:---:|\n|**GeoKR**|**Geographical Knowledge-Driven Representation Learning for Remote Sensing Images**|TGRS2021|[GeoKR](https://ieeexplore.ieee.org/abstract/document/9559903)|[link](https://github.com/flyakon/Geographical-Knowledge-driven-Representaion-Learning)|\n|**-**|**Self-Supervised Learning of Remote Sensing Scene Representations Using Contrastive Multiview Coding**|CVPRW2021|[Paper](https://openaccess.thecvf.com/content/CVPR2021W/EarthVision/html/Stojnic_Self-Supervised_Learning_of_Remote_Sensing_Scene_Representations_Using_Contrastive_Multiview_CVPRW_2021_paper.html)|[link](https://github.com/vladan-stojnic/CMC-RSSR)|\n|**GASSL**|**Geography-Aware Self-Supervised Learning**|ICCV2021|[GASSL](https://openaccess.thecvf.com/content/ICCV2021/html/Ayush_Geography-Aware_Self-Supervised_Learning_ICCV_2021_paper.html)|[link](https://github.com/sustainlab-group/geography-aware-ssl)|\n|**SeCo**|**Seasonal Contrast: Unsupervised Pre-Training From Uncurated Remote Sensing Data**|ICCV2021|[SeCo](https://openaccess.thecvf.com/content/ICCV2021/html/Manas_Seasonal_Contrast_Unsupervised_Pre-Training_From_Uncurated_Remote_Sensing_Data_ICCV_2021_paper.html)|[link](https://github.com/ServiceNow/seasonal-contrast)|\n|**DINO-MM**|**Self-Supervised Vision Transformers for Joint SAR-Optical Representation Learning**|IGARSS2022|[DINO-MM](https://doi.org/10.1109/igarss46834.2022.9883983)|[link](https://github.com/zhu-xlab/DINO-MM)|\n|**SatMAE**|**SatMAE: Pre-training Transformers for Temporal and Multi-Spectral Satellite Imagery**|NeurIPS2022|[SatMAE](https://proceedings.neurips.cc/paper_files/paper/2022/hash/01c561df365429f33fcd7a7faa44c985-Abstract-Conference.html)|[link](https://github.com/sustainlab-group/SatMAE)|\n|**RS-BYOL**|**Self-Supervised Learning for Invariant Representations From Multi-Spectral and SAR Images**|JSTARS2022|[RS-BYOL](https://ieeexplore.ieee.org/abstract/document/9880533)|null|\n|**GeCo**|**Geographical Supervision Correction for Remote Sensing Representation Learning**|TGRS2022|[GeCo](https://ieeexplore.ieee.org/abstract/document/9869651)|null|\n|**RingMo**|**RingMo: A remote sensing foundation model with masked image modeling**|TGRS2022|[RingMo](https://ieeexplore.ieee.org/abstract/document/9844015)|[Code](https://github.com/comeony/RingMo)|\n|**RVSA**|**Advancing plain vision transformer toward remote sensing foundation model**|TGRS2022|[RVSA](https://ieeexplore.ieee.org/abstract/document/9956816)|[link](https://github.com/ViTAE-Transformer/Remote-Sensing-RVSA)|\n|**RSP**|**An Empirical Study of Remote Sensing Pretraining**|TGRS2022|[RSP](https://ieeexplore.ieee.org/abstract/document/9782149)|[link](https://github.com/ViTAE-Transformer/Remote-Sensing-RVSA)|\n|**MATTER**|**Self-Supervised Material and Texture Representation Learning for Remote Sensing Tasks**|CVPR2022|[MATTER](https://openaccess.thecvf.com/content/CVPR2022/html/Akiva_Self-Supervised_Material_and_Texture_Representation_Learning_for_Remote_Sensing_Tasks_CVPR_2022_paper.html)|null|\n|**CSPT**|**Consecutive Pre-Training: A Knowledge Transfer Learning Strategy with Relevant Unlabeled Data for Remote Sensing Domain**|RS2022|[CSPT](https://www.mdpi.com/2072-4292/14/22/5675#)|[link](https://github.com/ZhAnGToNG1/transfer_learning_cspt)|\n|**-**|**Self-supervised Vision Transformers for Land-cover Segmentation and Classification**|CVPRW2022|[Paper](https://openaccess.thecvf.com/content/CVPR2022W/EarthVision/html/Scheibenreif_Self-Supervised_Vision_Transformers_for_Land-Cover_Segmentation_and_Classification_CVPRW_2022_paper.html)|[link](https://github.com/HSG-AIML/SSLTransformerRS)|\n|**TOV**|**TOV: The original vision model for optical remote sensing image understanding via self-supervised learning**|JSTARS2023|[TOV](https://ieeexplore.ieee.org/abstract/document/10110958)|[link](https://github.com/GeoX-Lab/G-RSIM/tree/main/TOV_v1)|\n|**CMID**|**CMID: A Unified Self-Supervised Learning Framework for Remote Sensing Image Understanding**|TGRS2023|[CMID](https://ieeexplore.ieee.org/abstract/document/10105625)|[link](https://github.com/NJU-LHRS/official-CMID)|\n|**RingMo-Sense**|**RingMo-Sense: Remote Sensing Foundation Model for Spatiotemporal Prediction via Spatiotemporal Evolution Disentangling**|TGRS2023|[RingMo-Sense](https://ieeexplore.ieee.org/abstract/document/10254320)|null|\n|**AST**|**AST: Adaptive Self-supervised Transformer for Optical Remote Sensing Representation**|ISPRS JPRS2023|[AST](https://doi.org/10.1016/j.isprsjprs.2023.04.003)|null|\n|**IaI-SimCLR**|**Multi-Modal Multi-Objective Contrastive Learning for Sentinel-1/2 Imagery**|CVPRW2023|[IaI-SimCLR](https://openaccess.thecvf.com/content/CVPR2023W/EarthVision/html/Prexl_Multi-Modal_Multi-Objective_Contrastive_Learning_for_Sentinel-12_Imagery_CVPRW_2023_paper.html)|null|\n|**CACo**|**Change-Aware Sampling and Contrastive Learning for Satellite Images**|CVPR2023|[CACo](https://openaccess.thecvf.com/content/CVPR2023/html/Mall_Change-Aware_Sampling_and_Contrastive_Learning_for_Satellite_Images_CVPR_2023_paper.html)|[link](https://github.com/utkarshmall13/CACo)|\n|**SatLas**|**SatlasPretrain: A Large-Scale Dataset for Remote Sensing Image Understanding**|ICCV2023|[SatLas](https://doi.org/10.1109/iccv51070.2023.01538)|[link](https://github.com/allenai/satlas)|\n|**GFM**|**Towards Geospatial Foundation Models via Continual Pretraining**|ICCV2023|[GFM](https://doi.org/10.1109/iccv51070.2023.01541)|[link](https://github.com/mmendiet/GFM)|\n|**Scale-MAE**|**Scale-MAE: A Scale-Aware Masked Autoencoder for Multiscale Geospatial Representation Learning**|ICCV2023|[Scale-MAE](https://doi.org/10.1109/iccv51070.2023.00378)|[link](https://github.com/bair-climate-initiative/scale-mae)|\n|**DINO-MC**|**DINO-MC: Self-supervised Contrastive Learning for Remote Sensing Imagery with Multi-sized Local Crops**|Arxiv2023|[DINO-MC](https://arxiv.org/abs/2303.06670)|[link](https://github.com/WennyXY/DINO-MC)|\n|**CROMA**|**CROMA: Remote Sensing Representations with Contrastive Radar-Optical Masked Autoencoders**|NeurIPS2023|[CROMA](https://arxiv.org/pdf/2311.00566.pdf)|[link](https://github.com/antofuller/CROMA)|\n|**Cross-Scale MAE**|**Cross-Scale MAE: A Tale of Multiscale Exploitation in Remote Sensing**|NeurIPS2023|[Cross-Scale MAE](https://openreview.net/pdf?id=5oEVdOd6TV)|[link](https://github.com/aicip/Cross-Scale-MAE)|\n|**Presto**|**Lightweight, Pre-trained Transformers for Remote Sensing Timeseries**|Arxiv2023|[Presto](https://arxiv.org/abs/2304.14065)|[link](https://github.com/nasaharvest/presto)|\n|**Prithvi**|**Foundation Models for Generalist Geospatial Artificial Intelligence**|Arxiv2023|[Prithvi](https://arxiv.org/abs/2310.18660)|[link](https://huggingface.co/ibm-nasa-geospatial)|\n|**-**|**A Self-Supervised Cross-Modal Remote Sensing Foundation Model with Multi-Domain Representation and Cross-Domain Fusion**|IGARSS2023|[Paper](https://ieeexplore.ieee.org/abstract/document/10282433)|null|\n|**EarthPT**|**EarthPT: a time series foundation model for Earth Observation**|NeurIPS2023 CCAI workshop|[EarthPT](https://arxiv.org/abs/2309.07207)|[link](https://github.com/aspiaspace/EarthPT)|\n|**USat**|**USat: A Unified Self-Supervised Encoder for Multi-Sensor Satellite Imagery**|Arxiv2023|[USat](https://arxiv.org/abs/2312.02199)|[link](https://github.com/stanfordmlgroup/USat)|\n|**AIEarth**|**Analytical Insight of Earth: A Cloud-Platform of Intelligent Computing for Geospatial Big Data**|Arxiv2023|[AIEarth](https://arxiv.org/abs/2312.16385)|[link](https://engine-aiearth.aliyun.com/#/)|\n|**Clay**|**Clay Foundation Model**|-|null|[link](https://clay-foundation.github.io/model/)|\n|**Hydro**|**Hydro--A Foundation Model for Water in Satellite Imagery**|-|null|[link](https://github.com/isaaccorley/hydro-foundation-model)|\n|**BFM**|**A Billion-scale Foundation Model for Remote Sensing Images**|IEEE JSTARS2024|[BFM](https://doi.org/10.1109/jstars.2024.3401772)|null|\n|**U-BARN**|**Self-Supervised Spatio-Temporal Representation Learning of Satellite Image Time Series**|JSTARS2024|[Paper](https://ieeexplore.ieee.org/document/10414422)|[link](https://src.koda.cnrs.fr/iris.dumeur/ssl_ubarn)|\n|**GeRSP**|**Generic Knowledge Boosted Pretraining for Remote Sensing Images**|TGRS2024|[GeRSP](https://doi.org/10.1109/tgrs.2024.3354031)|[GeRSP](https://github.com/floatingstarZ/GeRSP)|\n|**SwiMDiff**|**SwiMDiff: Scene-Wide Matching Contrastive Learning With Diffusion Constraint for Remote Sensing Image**|TGRS2024|[SwiMDiff](https://doi.org/10.1109/tgrs.2024.3371481)|null|\n|**OFA-Net**|**One for All: Toward Unified Foundation Models for Earth Vision**|IGARSS2024|[OFA-Net](https://doi.org/10.1109/igarss53475.2024.10641637)|null|\n|**-**|**Lightweight and Efficient: A Family of Multimodal Earth Observation Foundation Models**|IGARSS2024|[Paper](https://doi.org/10.1109/igarss53475.2024.10641132)|null|\n|**SMLFR**|**Generative ConvNet Foundation Model With Sparse Modeling and Low-Frequency Reconstruction for Remote Sensing Image Interpretation**|TGRS2024|[SMLFR](https://ieeexplore.ieee.org/abstract/document/10378718)|[link](https://github.com/HIT-SIRS/SMLFR)|\n|**SpectralGPT**|**SpectralGPT: Spectral Remote Sensing Foundation Model**|TPAMI2024|[SpectralGPT](https://doi.org/10.1109/tpami.2024.3362475)|[link](https://github.com/danfenghong/IEEE_TPAMI_SpectralGPT)|\n|**S2MAE**|**S2MAE: A Spatial-Spectral Pretraining Foundation Model for Spectral Remote Sensing Data**|CVPR2024|[S2MAE](https://openaccess.thecvf.com/content/CVPR2024/papers/Li_S2MAE_A_Spatial-Spectral_Pretraining_Foundation_Model_for_Spectral_Remote_Sensing_CVPR_2024_paper.pdf)|null|\n|**SatMAE++**|**Rethinking Transformers Pre-training for Multi-Spectral Satellite Imagery**|CVPR2024|[SatMAE++](https://doi.org/10.1109/cvpr52733.2024.02627)|[link](https://github.com/techmn/satmae_pp)|\n|**msGFM**|**Bridging Remote Sensors with Multisensor Geospatial Foundation Models**|CVPR2024|[msGFM](https://doi.org/10.1109/cvpr52733.2024.02631)|[link](https://github.com/boranhan/Geospatial_Foundation_Models)|\n|**SkySense**|**SkySense: A Multi-Modal Remote Sensing Foundation Model Towards Universal Interpretation for Earth Observation Imagery**|CVPR2024|[SkySense](https://openaccess.thecvf.com/content/CVPR2024/html/Guo_SkySense_A_Multi-Modal_Remote_Sensing_Foundation_Model_Towards_Universal_Interpretation_CVPR_2024_paper.html)|[link](https://github.com/Jack-bo1220/SkySense)|\n|**MTP**|**MTP: Advancing Remote Sensing Foundation Model via Multi-Task Pretraining**|IEEE JSTARS2024|[MTP](https://doi.org/10.1109/jstars.2024.3408154)|[link](https://github.com/ViTAE-Transformer/MTP)|\n|**DOFA**|**Neural Plasticity-Inspired Multimodal Foundation Model for Earth Observation**|Arxiv2024|[DOFA](https://arxiv.org/abs/2403.15356)|[link](https://github.com/zhu-xlab/DOFA)|\n|**DeCUR**|**DeCUR: decoupling common & unique representations for multimodal self-supervision**|ECCV2024|[DeCUR](https://doi.org/10.1007/978-3-031-73397-0_17)|[link](https://github.com/zhu-xlab/DeCUR)|\n|**MMEarth**|**MMEarth: Exploring Multi-Modal Pretext Tasks For Geospatial Representation Learning**|ECCV2024|[MMEarth](https://doi.org/10.1007/978-3-031-73039-9_10)|[link](https://vishalned.github.io/mmearth/)|\n|**LeMeViT**|**LeMeViT: Efficient Vision Transformer with Learnable Meta Tokens for Remote Sensing Image Interpretation**|IJCAI2024|[LeMeViT](https://arxiv.org/abs/2405.09789)|[link](https://github.com/ViTAE-Transformer/LeMeViT/tree/main?tab=readme-ov-file)|\n|**SoftCon**|**Multi-Label Guided Soft Contrastive Learning for Efficient Earth Observation Pretraining**|TGRS2024|[SoftCon](https://ieeexplore.ieee.org/abstract/document/10726860)|[link](https://github.com/zhu-xlab/softcon?tab=readme-ov-file)|\n|**RS-DFM**|**RS-DFM: A Remote Sensing Distributed Foundation Model for Diverse Downstream Tasks**|Arxiv2024|[RS-DFM](https://arxiv.org/abs/2406.07032)|null|\n|**A2-MAE**|**A2-MAE: A spatial-temporal-spectral unified remote sensing pre-training method based on anchor-aware masked autoencoder**|Arxiv2024|[A2-MAE](https://arxiv.org/abs/2406.08079)|null|\n|**OmniSat**|**OmniSat: Self-Supervised Modality Fusion for Earth Observation**|ECCV2024|[OmniSat](https://doi.org/10.1007/978-3-031-73390-1_24)|[link](https://github.com/gastruc/OmniSat?tab=readme-ov-file)|\n|**MM-VSF**|**Towards Knowledge Guided Pretraining Approaches for Multimodal Foundation Models: Applications in Remote Sensing**|Arxiv2024|[MM-VSF](https://arxiv.org/abs/2407.19660)|null|\n|**MA3E**|**Masked Angle-Aware Autoencoder for Remote Sensing Images**|ECCV2024|[MA3E](https://doi.org/10.1007/978-3-031-73242-3_15)|[link](https://github.com/benesakitam/MA3E)|\n|**SAR-JEPA**|**Predicting Gradient is Better: Exploring Self-Supervised Learning for SAR ATR with a Joint-Embedding Predictive Architecture**|ISPRS JPRS2024|[SAR-JEPA](https://www.sciencedirect.com/science/article/pii/S0924271624003514)|[link](https://github.com/waterdisappear/SAR-JEPA)|\n|**PIS**|**Pretrain a Remote Sensing Foundation Model by Promoting Intra-instance Similarity**|TGRS2024|[PIS](https://ieeexplore.ieee.org/abstract/document/10697182)|[link](https://github.com/ShawnAn-WHU/PIS)|\n|**FG-MAE**|**Feature Guided Masked Autoencoder for Self-Supervised Learning in Remote Sensing**|IEEE JSTARS2024|[FG-MAE](https://doi.org/10.1109/jstars.2024.3493237)|[link](https://github.com/zhu-xlab/FGMAE)|\n|**RingMo-lite**|**RingMo-Lite: A Remote Sensing Lightweight Network With CNN-Transformer Hybrid Framework**|IEEE TGRS2024|[RingMo-lite](https://doi.org/10.1109/tgrs.2024.3360447)|null|\n|**-**|**A Multimodal Unified Representation Learning Framework With Masked Image Modeling for Remote Sensing Images**|IEEE TGRS2024|[Paper](https://doi.org/10.1109/tgrs.2024.3494244)|null|\n|**-**|**Masked Feature Modeling for Generative Self-Supervised Representation Learning of High-Resolution Remote Sensing Images**|IEEE JSTARS2024|[Paper](https://doi.org/10.1109/jstars.2024.3385420)|null|\n|**OReole-FM**|**OReole-FM: successes and challenges toward billion-parameter foundation models for high-resolution satellite imagery**|SIGSPATIAL2024|[OReole-FM](https://doi.org/10.1145/3678717.3691292)|null|\n|**SatVision-TOA**|**SatVision-TOA: A Geospatial Foundation Model for Coarse-Resolution All-Sky Remote Sensing Imagery**|Arxiv2024|[SatVision-TOA](https://arxiv.org/abs/2411.17000)|[link](https://github.com/nasa-nccs-hpda/pytorch-caney)|\n|**Prithvi-EO-2.0**|**Prithvi-EO-2.0: A Versatile Multi-Temporal Foundation Model for Earth Observation Applications**|Arxiv2024|[Prithvi-EO-2.0](https://arxiv.org/abs/2412.02732)|[link](https://github.com/NASA-IMPACT/Prithvi-EO-2.0)|\n|**WildSAT**|**WildSAT: Learning Satellite Image Representations from Wildlife Observations**|Arxiv2024|[WildSAT](https://arxiv.org/abs/2412.14428)|[link](https://github.com/mdchuc/HRSFM)|\n|**SpectralEarth**|**SpectralEarth: Training Hyperspectral Foundation Models at Scale**|IEEE JSTARS2025|[SpectralEarth](https://doi.org/10.1109/jstars.2025.3581451)|null|\n|**SenPa-MAE**|**SenPa-MAE: Sensor Parameter Aware Masked Autoencoder for Multi-Satellite Self-Supervised Pretraining**|LNCS2025|[SenPa-MAE](https://doi.org/10.1007/978-3-031-85187-2_20)|[link](https://github.com/JonathanPrexl/SenPa-MAE)|\n|**RingMo-Aerial**|**RingMo-Aerial: An Aerial Remote Sensing Foundation Model With Affine Transformation Contrastive Learning**|IEEE TPAMI2025|[RingMo-Aerial](https://doi.org/10.1109/tpami.2025.3602237)|null|\n|**PIEViT**|**Pattern Integration and Enhancement Vision Transformer for Self-Supervised Learning in Remote Sensing**|IEEE TGRS2025|[PIEViT](https://doi.org/10.1109/tgrs.2025.3541390)|null|\n|**SeaMo**|**SeaMo: A Multi-Seasonal and Multimodal Remote Sensing Foundation Model**|Information Fusion2025|[SeaMo](https://www.sciencedirect.com/science/article/pii/S1566253525004075)|null|\n|**HyperSIGMA**|**HyperSIGMA: Hyperspectral Intelligence Comprehension Foundation Model**|IEEE TPAMI2025|[HyperSIGMA](https://arxiv.org/abs/2406.11519)|[link](https://github.com/WHU-Sigma/HyperSIGMA?tab=readme-ov-file)|\n|**FoMo**|**FoMo: Multi-Modal, Multi-Scale and Multi-Task Remote Sensing Foundation Models for Forest Monitoring**|AAAI2025|[FoMo](https://doi.org/10.1609/aaai.v39i27.35002)|[link](https://github.com/RolnickLab/FoMo-Bench)|\n|**RingMamba**|**RingMamba: Remote Sensing Multisensor Pretraining With Visual State Space Model**|IEEE TGRS2025|[RingMamba](https://doi.org/10.1109/tgrs.2025.3603998)|null|\n|**CrossEarth**|**CrossEarth: Geospatial Vision Foundation Model for Domain Generalizable Remote Sensing Semantic Segmentation**|IEEE TPAMI2025|[CrossEarth](https://doi.org/10.1109/tpami.2025.3649001)|[link](https://github.com/Cuzyoung/CrossEarth)|\n|**CtxMIM**|**CtxMIM: Context-Enhanced Masked Image Modeling for Remote Sensing Image Understanding**|ACM TOMM2025|[CtxMIM](https://doi.org/10.1145/3769084)|null|\n|**SatMamba**|**SatMamba: Development of Foundation Models for Remote Sensing Imagery Using State Space Models**|Arxiv2025|[SatMamba](https://arxiv.org/abs/2502.00435)|[link](https://github.com/mdchuc/HRSFM)|\n|**Galileo**|**Galileo: Learning Global & Local Features of Many Remote Sensing Modalities**|ICML2025 TerraBytes Workshop|[Galileo](https://arxiv.org/abs/2502.09356)|[link](https://github.com/nasaharvest/galileo)|\n|**SatDiFuser**|**Can Generative Geospatial Diffusion Models Excel as Discriminative Geospatial Foundation Models?**|Arxiv2025|[SatDiFuser](https://arxiv.org/abs/2503.07890)|null|\n|**RoMA**|**RoMA: Scaling up Mamba-based Foundation Models for Remote Sensing**|Arxiv2025|[RoMA](https://arxiv.org/abs/2503.10392)|[link](https://github.com/MiliLab/RoMA)|\n|**Panopticon**|**Panopticon: Advancing Any-Sensor Foundation Models for Earth Observation**|CVPR2025|[Panopticon](https://arxiv.org/abs/2503.10845)|[link](https://github.com/Panopticon-FM/panopticon)|\n|**HyperFree**|**HyperFree: A Channel-adaptive and Tuning-free Foundation Model for Hyperspectral Remote Sensing Imagery**|CVPR2025|[HyperFree](https://rsidea.whu.edu.cn/HyperFree.pdf)|[link](https://github.com/Jingtao-Li-CVer/HyperFree)|\n|**AnySat**|**AnySat: One Earth Observation Model for Many Resolutions, Scales, and Modalities**|CVPR2025|[AnySat](https://arxiv.org/abs/2412.14123)|[link](https://github.com/gastruc/AnySat)|\n|**HyperSL**|**HyperSL: A Spectral Foundation Model for Hyperspectral Image Interpretation**|IEEE TGRS2025|[HyperSL](https://ieeexplore.ieee.org/abstract/document/10981753)|[link](https://github.com/kkweil/HyperSL)|\n|**DynamicVis**|**DynamicVis: An Efficient and General Visual Foundation Model for Remote Sensing Image Understanding**|Arxiv2025|[DynamicVis](https://arxiv.org/abs/2503.16426)|[link](https://github.com/KyanChen/DynamicVis)|\n|**DeepAndes**|**DeepAndes: A Self-Supervised Vision Foundation Model for Multispectral Remote Sensing Imagery of the Andes**|IEEE JSTARS2025|[DeepAndes](https://doi.org/10.1109/jstars.2025.3619423)|null|\n|**TiMo**|**TiMo: Spatiotemporal Foundation Model for Satellite Image Time Series**|Arxiv2025|[TiMo](https://arxiv.org/abs/2505.08723)|[link](https://github.com/MiliLab/TiMo)|\n|**TerraFM**|**TerraFM: A Scalable Foundation Model for Unified Multisensor Earth Observation**|Arxiv2025|[TerraFM](https://arxiv.org/abs/2506.06281)|[link](https://github.com/mbzuai-oryx/TerraFM)|\n|**TESSERA**|**TESSERA: Temporal Embeddings of Surface Spectra for Earth Representation and Analysis**|Arxiv2025|[TESSERA](https://arxiv.org/abs/2506.20380)|[link](https://github.com/ucam-eo/tessera)|\n|**CGEarthEye**|**CGEarthEye: A High-Resolution Remote Sensing Vision Foundation Model Based on the Jilin-1 Satellite Constellation**|Arxiv2025|[CGEarthEye](https://arxiv.org/abs/2507.00356)|null|\n|**MoSAiC**|**MoSAiC: Multi-Modal Multi-Label Supervision-Aware Contrastive Learning for Remote Sensing**|Arxiv2025|[MoSAiC](https://arxiv.org/abs/2507.08683)|null|\n|**AlphaEarth**|**AlphaEarth Foundations: An embedding field model for accurate and efficient global mapping from sparse label data**|Arxiv2025|[AlphaEarth](https://arxiv.org/abs/2507.22291)|null|\n|**MAESTRO**|**MAESTRO: Masked AutoEncoders for Multimodal, Multitemporal, and Multispectral Earth Observation Data**|Arxiv2025|[MAESTRO](https://arxiv.org/abs/2508.10894)|[link](https://github.com/IGNF/MAESTRO)|\n|**FedSense**|**Towards Privacy-preserved Pre-training of Remote Sensing Foundation Models with Federated Mutual-guidance Learning**|ICCV2025|[FedSense](https://arxiv.org/abs/2503.11051)|null|\n|**RS-vHeat**|**RS-vHeat: Heat Conduction Guided Efficient Remote Sensing Foundation Model**|ICCV2025|[RS-vHeat](https://arxiv.org/abs/2411.17984)|null|\n|**Copernicus-FM**|**Towards a Unified Copernicus Foundation Model for Earth Vision**|ICCV2025|[Copernicus-FM](https://arxiv.org/abs/2503.11849)|[link](https://github.com/zhu-xlab/Copernicus-FM)|\n|**SelectiveMAE**|**Scaling Efficient Masked Autoencoder Learning on Large Remote Sensing Dataset**|ICCV2025|[SelectiveMAE](https://arxiv.org/abs/2406.11933)|[link](https://github.com/Fengxiang23/SelectiveMAE)|\n|**SMARTIES**|**SMARTIES: Spectrum-Aware Multi-Sensor Auto-Encoder for Remote Sensing Images**|ICCV2025|[SMARTIES](https://arxiv.org/abs/2506.19585)|[link](https://gsumbul.github.io/SMARTIES/)|\n|**TerraMind**|**TerraMind: Large-Scale Generative Multimodality for Earth Observation**|ICCV2025|[TerraMind](https://arxiv.org/abs/2504.11171)|[link](https://github.com/IBM/terramind)|\n|**SkySense V2**|**SkySense V2: A Unified Foundation Model for Multi-modal Remote Sensing**|ICCV2025|[SkySense V2](https://arxiv.org/abs/2507.13812)|null|\n|**SkySense++**|**A semantic-enhanced multi-modal remote sensing foundation model for Earth observation**|Nature Machine Intelligence 2025|[SkySense++](https://www.nature.com/articles/s42256-025-01078-8)|[link](https://github.com/kang-wu/SkySensePlusPlus?tab=readme-ov-file)|\n|**FlexiMo**|**FlexiMo: A Flexible Remote Sensing Foundation Model**|IEEE TGRS2026|[FlexiMo](https://doi.org/10.1109/tgrs.2026.3656362)|null|\n|**RingMoE**|**RingMoE: Mixture-of-Modality-Experts Multi-Modal Foundation Models for Universal Remote Sensing Image Interpretation**|IEEE TPAMI2026|[RingMoE](https://doi.org/10.1109/tpami.2025.3643453)|null|\n|**-**|**A Complex-Valued SAR Foundation Model Based on Physically Inspired Representation Learning**|IEEE TIP2026|[Paper](https://doi.org/10.1109/tip.2026.3652417)|null|\n|**MAPEX**|**MAPEX: Modality-Aware Pruning of Experts for Remote Sensing Foundation Models**|IEEE TGRS2026|[MAPEX](https://doi.org/10.1109/tgrs.2026.3652100)|[link](https://github.com/HSG-AIML/MAPEX)|\n|**Alliance**|**Alliance: All-in-One Spectral-Spatial-Frequency Awareness Foundation Model**|IEEE TPAMI2026|[Alliance](https://doi.org/10.1109/tpami.2025.3639595)|null|\n\n\n## Remote Sensing <ins>Vision-Language</ins> Foundation Models\n\n|Abbreviation|Title|Publication|Paper|Code & Weights|\n|:---:|---|:---:|:---:|:---:|\n|**RSGPT**|**RSGPT: A Remote Sensing Vision Language Model and Benchmark**|Arxiv2023|[RSGPT](https://arxiv.org/abs/2307.15266)|[link](https://github.com/Lavender105/RSGPT)|\n|**RemoteCLIP**|**RemoteCLIP: A Vision Language Foundation Model for Remote Sensing**|IEEE TGRS2024|[RemoteCLIP](https://arxiv.org/abs/2306.11029)|[link](https://github.com/ChenDelong1999/RemoteCLIP)|\n|**GeoRSCLIP**|**RS5M: A Large Scale Vision-Language Dataset for Remote Sensing Vision-Language Foundation Model**|IEEE TGRS2024|[GeoRSCLIP](https://arxiv.org/abs/2306.11300)|[link](https://github.com/om-ai-lab/RS5M?tab=readme-ov-file)|\n|**GRAFT**|**Remote Sensing Vision-Language Foundation Models without Annotations via Ground Remote Alignment**|ICLR2024|[GRAFT](https://openreview.net/pdf?id=w9tc699w3Z)|null|\n|**-**|**Charting New Territories: Exploring the Geographic and Geospatial Capabilities of Multimodal LLMs**|Arxiv2023|[Paper](https://arxiv.org/abs/2311.14656)|[link](https://github.com/jonathan-roberts1/charting-new-territories)|\n|**-**|**Remote Sensing ChatGPT: Solving Remote Sensing Tasks with ChatGPT and Visual Models**|Arxiv2024|[Paper](https://arxiv.org/abs/2401.09083)|[link](https://github.com/HaonanGuo/Remote-Sensing-ChatGPT)|\n|**EarthGPT**|**EarthGPT: A Universal Multimodal Large Language Model for Multisensor Image Comprehension in Remote Sensing Domain**|IEEE TGRS2024|[EarthGPT](https://doi.org/10.1109/tgrs.2024.3409624)|null|\n|**SkyCLIP**|**SkyScript: A Large and Semantically Diverse Vision-Language Dataset for Remote Sensing**|AAAI2024|[SkyCLIP](https://arxiv.org/abs/2312.12856)|[link](https://github.com/wangzhecheng/SkyScript)|\n|**GeoChat**|**GeoChat: Grounded Large Vision-Language Model for Remote Sensing**|CVPR2024|[GeoChat](https://arxiv.org/abs/2311.15826)|[link](https://github.com/mbzuai-oryx/GeoChat)|\n|**LHRS-Bot**|**LHRS-Bot: Empowering Remote Sensing with VGI-Enhanced Large Multimodal Language Model**|ECCV2024|[LHRS-Bot](https://arxiv.org/abs/2402.02544)|[link](https://github.com/NJU-LHRS/LHRS-Bot)|\n|**RS-LLaVA**|**RS-LLaVA: Large Vision Language Model for Joint Captioning and Question Answering in Remote Sensing Imagery**|RS2024|[RS-LLaVA](https://www.mdpi.com/2072-4292/16/9/1477)|[link](https://github.com/BigData-KSU/RS-LLaVA?tab=readme-ov-file)|\n|**SkySenseGPT**|**SkySenseGPT: A Fine-Grained Instruction Tuning Dataset and Model for Remote Sensing Vision-Language Understanding**|Arxiv2024|[SkySenseGPT](https://arxiv.org/abs/2406.10100)|[link](https://github.com/Luo-Z13/SkySenseGPT)|\n|**EarthMarker**|**EarthMarker: Visual Prompt Learning for Region-level and Point-level Remote Sensing Imagery Comprehension**|IEEE TGRS2024|[EarthMarker](https://arxiv.org/abs/2407.13596)|[link](https://github.com/wivizhang/EarthMarker)|\n|**GeoText**|**Towards Natural Language-Guided Drones: GeoText-1652 Benchmark with Spatial Relation Matching**|ECCV2024|[GeoText](https://arxiv.org/abs/2311.12751)|[link](https://multimodalgeo.github.io/GeoText/)|\n|**Aquila**|**Aquila: A Hierarchically Aligned Visual-Language Model for Enhanced Remote Sensing Image Comprehension**|Arxiv2024|[Aquila](https://arxiv.org/pdf/2411.06074)|null|\n|**LHRS-Bot-Nova**|**LHRS-Bot-Nova: Improved multimodal large language model for remote sensing vision-language interpretation**|ISPRS JPRS2025|[LHRS-Bot-Nova](https://doi.org/10.1016/j.isprsjprs.2025.06.003)|[link](https://github.com/NJU-LHRS/LHRS-Bot)|\n|**RSCLIP**|**Pushing the Limits of Vision-Language Models in Remote Sensing without Human Annotations**|Arxiv2024|[RSCLIP](https://arxiv.org/pdf/2409.07048)|null|\n|**GeoGround**|**GeoGround: A Unified Large Vision-Language Model for Remote Sensing Visual Grounding**|Arxiv2024|[GeoGround](https://arxiv.org/abs/2411.11904)|[link](https://github.com/zytx121/GeoGround)|\n|**RingMoGPT**|**RingMoGPT: A Unified Remote Sensing Foundation Model for Vision, Language, and grounded tasks**|TGRS2024|[RingMoGPT](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10777289)|null|\n|**RSUniVLM**|**RSUniVLM: A Unified Vision Language Model for Remote Sensing via Granularity-oriented Mixture of Experts**|Arxiv2024|[RSUniVLM](https://arxiv.org/abs/2412.05679)|[link](https://rsunivlm.github.io/)|\n|**UniRS**|**UniRS: Unifying Multi-temporal Remote Sensing Tasks through Vision Language Models**|Arxiv2024|[UniRS](https://arxiv.org/abs/2412.20742v1)|null|\n|**REO-VLM**|**REO-VLM: Transforming VLM to Meet Regression Challenges in Earth Observation**|Arxiv2024|[REO-VLM](https://arxiv.org/abs/2412.16583)|null|\n|**SkyEyeGPT**|**SkyEyeGPT: Unifying Remote Sensing Vision-Language Tasks via Instruction Tuning with Large Language Model**|ISPRS JPRS2025|[SkyEyeGPT](https://doi.org/10.1016/j.isprsjprs.2025.01.020)|[link](https://github.com/ZhanYang-nwpu/SkyEyeGPT)|\n|**VHM**|**VHM: Versatile and Honest Vision Language Model for Remote Sensing Image Analysis**|AAAI2025|[VHM](https://arxiv.org/abs/2403.20213v4)|[link](https://github.com/opendatalab/VHM)|\n|**TEOChat**|**TEOChat: Large Language and Vision Assistant for Temporal Earth Observation Data**|ICLR2025|[TEOChat](https://arxiv.org/abs/2410.06234)|[link](https://github.com/ermongroup/TEOChat)|\n|**EarthDial**|**EarthDial: Turning Multi-sensory Earth Observations to Interactive Dialogues**|CVPR2025|[EarthDial](https://arxiv.org/pdf/2412.15190#page=3.84)|[link](https://github.com/hiyamdebary/EarthDial)|\n|**SkySense-O**|**SkySense-O: Towards Open-World Remote Sensing Interpretation with Vision-Centric Visual-Language Modeling**|CVPR2025|[SkySense-O](https://openaccess.thecvf.com/content/CVPR2025/papers/Zhu_SkySense-O_Towards_Open-World_Remote_Sensing_Interpretation_with_Vision-Centric_Visual-Language_Modeling_CVPR_2025_paper.pdf)|[link](https://github.com/zqcrafts/SkySense-O)|\n|**XLRS-Bench**|**XLRS-Bench: Could Your Multimodal LLMs Understand Extremely Large Ultra-High-Resolution Remote Sensing Imagery?**|CVPR2025|[XLRS-Bench](https://arxiv.org/abs/2503.23771)|[link](https://xlrs-bench.github.io/)|\n|**GeoPix**|**GeoPix: Multi-Modal Large Language Model for Pixel-level Image Understanding in Remote Sensing**|IEEE GRSM2025|[GeoPix](https://arxiv.org/abs/2501.06828)|[link](https://github.com/Norman-Ou/GeoPix)|\n|**GeoPixel**|**GeoPixel: Pixel Grounding Large Multimodal Model in Remote Sensing**|ICML2025|[GeoPixel](https://arxiv.org/abs/2501.13925)|[link](https://github.com/mbzuai-oryx/GeoPixel)|\n|**Co-LLaVA**|**Co-LLaVA: Efficient Remote Sensing Visual Question Answering via Model Collaboration**|RS2025|[Co-LLaVA](https://doi.org/10.3390/rs17030466)|null|\n|**GeoMag**|**GeoMag: A Vision-Language Model for Pixel-level Fine-Grained Remote Sensing Image Parsing**|ACMMM2025|[GeoMag](https://doi.org/10.1145/3746027.3754559)|null|\n|**-**|**Quality-Driven Curation of Remote Sensing Vision-Language Data via Learned Scoring Models**|Arxiv2025|[Paper](https://arxiv.org/abs/2503.00743)|null|\n|**DOFA-CLIP**|**DOFA-CLIP: Multimodal Vision–Language Foundation Models for Earth Observation**|Arxiv2025|[DOFA-CLIP](https://arxiv.org/abs/2503.06312)|[link](https://github.com/xiong-zhitong/GeoLB-SigLIP)|\n|**DGTRS-CLIP**|**DGTRSD & DGTRS-CLIP: A Dual-Granularity Remote Sensing Image-Text Dataset and Vision Language Foundation Model for Alignment**|Arxiv2025|[DGTRS-CLIP](https://arxiv.org/abs/2503.19311)|[link](https://github.com/MitsuiChen14/DGTRS)|\n|**Falcon**|**Falcon: A Remote Sensing Vision-Language Foundation Model**|Arxiv2025|[Falcon](https://arxiv.org/abs/2503.11070)|[link](https://github.com/TianHuiLab/Falcon)|\n|**GeoRSMLLM**|**GeoRSMLLM: A Multimodal Large Language Model for Vision-Language Tasks in Geoscience and Remote Sensing**|Arxiv2025|[GeoRSMLLM](https://arxiv.org/abs/2503.12490)|null|\n|**LRS-VQA**|**When Large Vision-Language Model Meets Large Remote Sensing Imagery: Coarse-to-Fine Text-Guided Token Pruning**|ICCV2025|[LRS-VQA](https://arxiv.org/abs/2503.07588)|[link](https://github.com/VisionXLab/LRS-VQA)|\n|**UrbanLLaVA**|**UrbanLLaVA: A Multi-modal Large Language Model for Urban Intelligence with Spatial Reasoning and Understanding**|ICCV2025|[UrbanLLaVA](https://arxiv.org/abs/2506.23219)|[link](https://github.com/tsinghua-fib-lab/UrbanLLaVA)|\n|**OmniGeo**|**OmniGeo: Towards a Multimodal Large Language Models for Geospatial Artificial Intelligence**|Arxiv2025|[OmniGeo](https://arxiv.org/abs/2503.16326)|null|\n|**EagleVision**|**EagleVision: Object-level Attribute Multimodal LLM for Remote Sensing**|Arxiv2025|[EagleVision](https://arxiv.org/abs/2503.23330)|[link](https://github.com/XiangTodayEatsWhat/EagleVision)|\n|**SegEarth-R1**|**SegEarth-R1: Geospatial Pixel Reasoning via Large Language Model**|Arxiv2025|[SegEarth-R1](https://arxiv.org/abs/2504.09644)|[link](https://github.com/earth-insights/SegEarth-R1)|\n|**RemoteSAM**|**RemoteSAM: Towards Segment Anything for Earth Observation**|ACMMM2025|[RemoteSAM](https://arxiv.org/abs/2505.18022)|[link](https://github.com/1e12Leon/RemoteSAM)|\n|**DynamicVL**|**DynamicVL: Benchmarking Multimodal Large Language Models for Dynamic City Understanding**|Arxiv2025|[DynamicVL](https://arxiv.org/abs/2505.21076)|null|\n|**LISAt**|**LISAt: Language- Instructed Segmentation Assistant for Satellite Imagery**|Arxiv2025|[LISAt](https://arxiv.org/abs/2505.02829)|[link](https://lisat-bair.github.io/LISAt/)|\n|**EarthMind**|**EarthMind: Towards Multi-Granular and Multi-Sensor Earth Observation with Large Multimodal Models**|Arxiv2025|[EarthMind](https://arxiv.org/abs/2506.01667)|[link](https://github.com/shuyansy/EarthMind)|\n|**-**|**Remote Sensing Large Vision-Language Model: Semantic-augmented Multi-level Alignment and Semantic-aware Expert Modeling**|Arxiv2025|[Paper](https://arxiv.org/abs/2506.21863)|null|\n|**RLita**|**RLita: A Region-Level Image-Text Alignment Method for Remote Sensing Foundation Model**|RS2025|[RLita](https://doi.org/10.3390/rs17101661)|null|\n|**RingMo-Agent**|**RingMo-Agent: A Unified Remote Sensing Foundation Model for Multi-Platform and Multi-Modal Reasoning**|Arxiv2025|[RingMo-Agent](https://arxiv.org/abs/2507.20776)|null|\n|**FUSE-RSVLM**|**FUSE-RSVLM: Feature Fusion Vision-Language Model for Remote Sensing**|Arxiv2025|[FUSE-RSVLM](https://arxiv.org/abs/2512.24022)|[link](https://github.com/Yunkaidang/RSVLM)|\n|**GeoReason**|**GeoReason: Aligning Thinking And Answering In Remote Sensing Vision-Language Models Via Logical Consistency Reinforcement Learning**|Arxiv2026|[GeoReason](https://arxiv.org/abs/2601.04118)|[link](https://github.com/canlanqianyan/GeoReason)|\n|**RSCoVLM**|**Co-Training Vision-Language Models for Remote Sensing Multi-Task Learning**|RS2026|[RSCoVLM](https://doi.org/10.3390/rs18020222)|[link](https://github.com/VisionXLab/RSCoVLM)|\n|**GeoAlignCLIP**|**GeoAlignCLIP: Enhancing Fine-Grained Vision-Language Alignment in Remote Sensing via Multi-Granular Consistency Learning**|Arxiv2026|[GeoAlignCLIP](https://arxiv.org/abs/2603.09566)|null|\n\n\n## Remote Sensing <ins>Generative</ins> Foundation Models\n\n|Abbreviation|Title|Publication|Paper|Code & Weights|\n|:---:|---|:---:|:---:|:---:|\n|**Seg2Sat**|**Seg2Sat - Segmentation to aerial view using pretrained diffuser models**|Github|null|[link](https://github.com/RubenGres/Seg2Sat)|\n|**-**|**Generate Your Own Scotland: Satellite Image Generation Conditioned on Maps**|NeurIPSW2023|[Paper](https://arxiv.org/abs/2308.16648)|[link](https://github.com/toastyfrosty/map-sat)|\n|**GeoRSSD**|**RS5M: A Large Scale Vision-Language Dataset for Remote Sensing Vision-Language Foundation Model**|Arxiv2023|[Paper](https://arxiv.org/abs/2306.11300)|[link](https://huggingface.co/Zilun/GeoRSSD)|\n|**DiffusionSat**|**DiffusionSat: A Generative Foundation Model for Satellite Imagery**|ICLR2024|[DiffusionSat](https://arxiv.org/abs/2312.03606)|[link](https://github.com/samar-khanna/DiffusionSat)|\n|**CRS-Diff**|**CRS-Diff: Controllable Generative Remote Sensing Foundation Model**|Arxiv2024|[Paper](https://arxiv.org/abs/2403.11614)|null|\n|**MetaEarth**|**MetaEarth: A Generative Foundation Model for Global-Scale Remote Sensing Image Generation**|Arxiv2024|[Paper](https://arxiv.org/abs/2405.13570)|[link](https://jiupinjia.github.io/metaearth/)|\n|**CRS-Diff**|**CRS-Diff: Controllable Generative Remote Sensing Foundation Model**|Arxiv2024|[Paper](https://arxiv.org/abs/2403.11614)|[link](https://github.com/Sonettoo/CRS-Diff?tab=readme-ov-file)|\n|**HSIGene**|**HSIGene: A Foundation Model For Hyperspectral Image Generation**|Arxiv2024|[Paper](https://arxiv.org/abs/2409.12470)|[link](https://github.com/LiPang/HSIGene)|\n|**Text2Earth**|**Text2Earth: Unlocking Text-driven Remote Sensing Image Generation with a Global-Scale Dataset and a Foundation Model**|Arxiv2025|[Paper](https://arxiv.org/abs/2501.00895)|[link](https://chen-yang-liu.github.io/Text2Earth/)|\n\n## Remote Sensing <ins>Vision-Location</ins> Foundation Models\n\n|Abbreviation|Title|Publication|Paper|Code & Weights|\n|:---:|---|:---:|:---:|:---:|\n|**CSP**|**CSP: Self-Supervised Contrastive Spatial Pre-Training for Geospatial-Visual Representations**|ICML2023|[CSP](https://arxiv.org/abs/2305.01118)|[link](https://gengchenmai.github.io/csp-website/)|\n|**GeoCLIP**|**GeoCLIP: Clip-Inspired Alignment between Locations and Images for Effective Worldwide Geo-localization**|NeurIPS2023|[GeoCLIP](https://arxiv.org/abs/2309.16020)|[link](https://vicentevivan.github.io/GeoCLIP/)|\n|**SatCLIP**|**SatCLIP: Global, General-Purpose Location Embeddings with Satellite Imagery**|Arxiv2023|[SatCLIP](https://arxiv.org/abs/2311.17179)|[link](https://github.com/microsoft/satclip)|\n|**RANGE**|**RANGE: Retrieval Augmented Neural Fields for Multi-Resolution Geo-Embeddings**|CVPR2025|[RANGE](https://arxiv.org/pdf/2502.19781)|null|\n|**GAIR**|**GAIR: Improving Multimodal Geo-Foundation Model with Geo-Aligned Implicit Representations**|Arxiv2025|[GAIR](https://arxiv.org/abs/2503.16683)|null|\n\n## Remote Sensing <ins>Vision-Audio</ins> Foundation Models\n\n|Abbreviation|Title|Publication|Paper|Code & Weights|\n|:---:|---|:---:|:---:|:---:|\n|**-**|**Self-supervised audiovisual representation learning for remote sensing data**|JAG2022|[Paper](https://www.sciencedirect.com/science/article/pii/S1569843222003181)|[link](https://github.com/khdlr/SoundingEarth)|\n\n\n## Remote Sensing <ins>Task-specific</ins> Foundation Models\n\n|Abbreviation|Title|Publication|Paper|Code & Weights|Task|\n|:---:|---|:---:|:---:|:---:|:---:|\n|**SS-MAE**|**SS-MAE: Spatial-Spectral Masked Auto-Encoder for Mulit-Source Remote Sensing Image Classification**|TGRS2023|[Paper](https://ieeexplore.ieee.org/document/10314566/)|[link](https://github.com/summitgao/SS-MAE?tab=readme-ov-file)|Image Classification|\n|**-**|**A Decoupling Paradigm With Prompt Learning for Remote Sensing Image Change Captioning**|TGRS2023|[Paper](https://ieeexplore.ieee.org/document/10271701)|[link](https://github.com/Chen-Yang-Liu/PromptCC)|Remote Sensing Image Change Captioning|\n|**TTP**|**Time Travelling Pixels: Bitemporal Features Integration with Foundation Model for Remote Sensing Image Change Detection**|Arxiv2023|[Paper](https://arxiv.org/abs/2312.16202)|[link](https://github.com/KyanChen/TTP)|Change Detection|\n|**CSMAE**|**Exploring Masked Autoencoders for Sensor-Agnostic Image Retrieval in Remote Sensing**|Arxiv2024|[Paper](https://arxiv.org/abs/2401.07782)|[link](https://github.com/jakhac/CSMAE)|Image Retrieval|\n|**RSPrompter**|**RSPrompter: Learning to Prompt for Remote Sensing Instance Segmentation based on Visual Foundation Model**|TGRS2024|[Paper](https://arxiv.org/abs/2306.16269)|[link](https://github.com/KyanChen/RSPrompter)|Instance Segmentation|\n|**BAN**|**A New Learning Paradigm for Foundation Model-based Remote Sensing Change Detection**|TGRS2024|[Paper](https://arxiv.org/abs/2312.01163)|[link](https://github.com/likyoo/BAN)|Change Detection|\n|**-**|**Change Detection Between Optical Remote Sensing Imagery and Map Data via Segment Anything Model (SAM)**|Arxiv2024|[Paper](https://arxiv.org/abs/2401.09019)|null|Change Detection (Optical & OSM data)|\n|**AnyChange**|**Segment Any Change**|Arxiv2024|[Paper](https://arxiv.org/abs/2402.01188)|null|Zero-shot Change Detection|\n|**RS-CapRet**|**Large Language Models for Captioning and Retrieving Remote Sensing Images**|Arxiv2024|[Paper](https://arxiv.org/abs/2402.06475)|null|Image Caption & Text-image Retrieval|\n|**-**|**Task Specific Pretraining with Noisy Labels for Remote sensing Image Segmentation**|Arxiv2024|[Paper](https://arxiv.org/abs/2402.16164)|null|Image Segmentation (Noisy labels)|\n|**RSBuilding**|**RSBuilding: Towards General Remote Sensing Image Building Extraction and Change Detection with Foundation Model**|Arxiv2024|[Paper](https://arxiv.org/abs/2403.07564)|[link](https://github.com/Meize0729/RSBuilding)|Building Extraction and Change Detection|\n|**SAM-Road**|**Segment Anything Model for Road Network Graph Extraction**|Arxiv2024|[Paper](https://arxiv.org/abs/2403.16051)|[link](https://github.com/htcr/sam_road)|Road Extraction|\n|**CrossEarth**|**CrossEarth: Geospatial Vision Foundation Model for Domain Generalizable Remote Sensing Semantic Segmentation**|Arxiv2024|[Paper](https://arxiv.org/abs/2410.22629)|[link](https://github.com/Cuzyoung/CrossEarth)|Domain Generalizable Remote Sensing Semantic Segmentation|\n|**GeoGround**|**GeoGround: A Unified Large Vision-Language Model for Remote Sensing Visual Grounding**|Arxiv2024|[Paper](https://arxiv.org/pdf/2411.11904)|[link](https://github.com/zytx121/GeoGround)|Remote Sensing Visual Grounding|\n|**TPOV-Seg**|**TPOV-Seg: Textually Enhanced Prompt Tuning of Vision-Language Models for Open-Vocabulary Remote Sensing Semantic Segmentation**|IEEE TGRS2025|[Paper](https://doi.org/10.1109/tgrs.2025.3624767)|null|Open-Vocabulary Semantic Segmentation|\n|**SegEarth-OV**|**SegEarth-OV: Towards Training-Free Open-Vocabulary Segmentation for Remote Sensing Images**|CVPR2025|[Paper](https://cvpr.thecvf.com/virtual/2025/poster/33431)|[link](https://github.com/likyoo/SegEarth-OV)|Open-Vocabulary Segmentation|\n|**RSRefSeg 2**|**RSRefSeg 2: Decoupling Referring Remote Sensing Image Segmentation With Foundation Models**|IEEE TGRS2026|[Paper](https://doi.org/10.1109/tgrs.2025.3647535)|null|Referring Image Segmentation|\n|**AgriFM**|**AgriFM: A multi-source temporal remote sensing foundation model for Agriculture mapping**|RSE2026|[Paper](https://doi.org/10.1016/j.rse.2026.115234)|[link](https://github.com/flyakon/AgriFM)|Crop Mapping / Agricultural Mapping|\n|**SARATR-X**|**SARATR-X: Toward Building a Foundation Model for SAR Target Recognition**|IEEE TIP2025|[SARATR-X](https://ieeexplore.ieee.org/abstract/document/10856784)|[link](https://github.com/waterdisappear/SARATR-X)|SAR Target Recognition|\n\n## Remote Sensing Agents\n|Abbreviation|Title|Publication|Paper|Code & Weights|\n|:---:|---|:---:|:---:|:---:|\n|**GeoLLM-QA**|**Evaluating Tool-Augmented Agents in Remote Sensing Platforms**|ICLR 2024 ML4RS Workshop|[Paper](https://arxiv.org/abs/2405.00709)|null|\n|**RS-Agent**|**RS-Agent: Automating Remote Sensing Tasks through Intelligent Agents**|Arxiv2024|[Paper](https://arxiv.org/abs/2406.07089)|null|\n|**Change-Agent**|**Change-Agent: Toward Interactive Comprehensive Remote Sensing Change Interpretation and Analysis**|TGRS2024|[Paper](https://ieeexplore.ieee.org/abstract/document/10591792)|[link](https://github.com/Chen-Yang-Liu/Change-Agent)|\n|**GeoLLM-Engine**|**GeoLLM-Engine: A Realistic Environment for Building Geospatial Copilots.**|CVPRW2024|[Paper](https://openaccess.thecvf.com/content/CVPR2024W/EarthVision/html/Singh_GeoLLM-Engine_A_Realistic_Environment_for_Building_Geospatial_Copilots_CVPRW_2024_paper.html)|null|\n|**PEACE**|**PEACE: Empowering Geologic Map Holistic Understanding with MLLMs**|CVPR2025|[Paper](https://arxiv.org/abs/2501.06184)|[link](https://github.com/microsoft/PEACE?tab=readme-ov-file)|\n|**-**|**Towards LLM Agents for Earth Observation: The UnivEARTH Dataset**|Arxiv2025|[Paper](https://arxiv.org/abs/2504.12110)|null|\n|**Geo-OLM**|**Geo-OLM: Enabling Sustainable Earth Observation Studies with Cost-Efficient Open Language Models & State-Driven Workflows**|COMPASS'2025|[Paper](https://arxiv.org/abs/2504.04319)|[link](https://github.com/dstamoulis/geo-olms)|\n|**ThinkGeo**|**ThinkGeo: Evaluating Tool-Augmented Agents for Remote Sensing Tasks**|Arxiv2025|[Paper](https://arxiv.org/abs/2505.23752)|[link](https://github.com/mbzuai-oryx/ThinkGeo)|\n|**AirSpatialBot**|**AirSpatialBot: A Spatially Aware Aerial Agent for Fine-Grained Vehicle Attribute Recognition and Retrieval**|IEEE TGRS2025|[Paper](https://doi.org/10.1109/tgrs.2025.3570895)|[link](https://github.com/VisionXLab/AirSpatialBot)|\n|**OpenEarthAgent**|**OpenEarthAgent: A Unified Framework for Tool-Augmented Geospatial Agents**|Arxiv2026|[Paper](https://arxiv.org/abs/2602.17665)|[link](https://github.com/mbzuai-oryx/OpenEarthAgent)|\n|**GeoEyes**|**GeoEyes: Geospatial Context-Zoom Agent for Long-Range Vision-Language Understanding on Ultra-High-Resolution Remote Sensing Images**|Arxiv2026|[Paper](https://arxiv.org/abs/2602.14201)|[link](https://github.com/nanocm/GeoEyes)|\n|**Earth-Agent**|**Earth-Agent: Unlocking the Full Landscape of Earth Observation with Agents**|ICLR2026|[Paper](https://arxiv.org/abs/2509.23141)|[link](https://github.com/opendatalab/Earth-Agent)|\n\n## Benchmarks for RSFMs\n|Abbreviation|Title|Publication|Paper|Link|Downstream Tasks|\n|:---:|---|:---:|:---:|:---:|:---:|\n|**-**|**Revisiting pre-trained remote sensing model benchmarks: resizing and normalization matters**|Arxiv2023|[Paper](https://arxiv.org/abs/2305.13456)|[link](https://github.com/isaaccorley/resize-is-all-you-need)|Classification|\n|**GEO-Bench**|**GEO-Bench: Toward Foundation Models for Earth Monitoring**|Arxiv2023|[Paper](https://arxiv.org/abs/2306.03831)|[link](https://github.com/ServiceNow/geo-bench)|Classification & Segmentation|\n|**FoMo-Bench**|**FoMo-Bench: a multi-modal, multi-scale and multi-task Forest Monitoring Benchmark for remote sensing foundation models**|Arxiv2023|[FoMo-Bench](https://arxiv.org/abs/2312.10114)|Comming soon|Classification & Segmentation & Detection for forest monitoring|\n|**PhilEO**|**PhilEO Bench: Evaluating Geo-Spatial Foundation Models**|Arxiv2024|[Paper](https://arxiv.org/abs/2401.04464)|[link](https://github.com/91097luke/phileo-bench)|Segmentation & Regression estimation|\n|**SkySense**|**SkySense: A Multi-Modal Remote Sensing Foundation Model Towards Universal Interpretation for Earth Observation Imagery**|CVPR2024|[SkySense](https://arxiv.org/abs/2312.10115)|Targeted open-source|Classification & Segmentation & Detection & Change detection & Multi-Modal Segmentation: Time-insensitive LandCover Mapping & Multi-Modal Segmentation: Time-sensitive Crop Mapping & Multi-Modal Scene Classification|\n|**VLEO-Bench**|**Good at captioning, bad at counting: Benchmarking GPT-4V on Earth observation data**|Arxiv2024|[VLEO-bench](https://arxiv.org/abs/2401.17600)|[link](https://vleo.danielz.ch/)| Location Recognition & Captioning & Scene Classification & Counting & Detection & Change detection|\n|**VRSBench**|**VRSBench: A Versatile Vision-Language Benchmark Dataset for Remote Sensing Image Understanding**|NeurIPS2024|[VRSBench](https://arxiv.org/abs/2406.12384)|[link](https://vrsbench.github.io/)|Image Captioning & Object Referring & Visual Question Answering|\n|**UrBench**|**UrBench: A Comprehensive Benchmark for Evaluating Large Multimodal Models in Multi-View Urban Scenarios**|AAAI2025|[UrBench](https://doi.org/10.1609/aaai.v39i10.33163)|[link](https://opendatalab.github.io/UrBench/)|Object Referring & Visual Question Answering & Counting & Scene Classification & Location Recognition & Geolocalization|\n|**PANGAEA**|**PANGAEA: A Global and Inclusive Benchmark for Geospatial Foundation Models**|Arxiv2024|[PANGAEA](https://arxiv.org/abs/2412.04204)|[link](https://github.com/yurujaja/pangaea-bench)|Segmentation & Change detection & Regression|\n|**CHOICE**|**CHOICE: Evaluating and Understanding Vision-Language Model Choices in Remote Sensing**|NeurIPS2025|[CHOICE](https://neurips.cc/virtual/2025/poster/121749)|[link](https://github.com/ShawnAn-WHU/CHOICE)|Perception & Reasoning|\n|**GEO-Bench-VLM**|**GEO-Bench-VLM: Benchmarking Vision-Language Models for Geospatial Tasks**|ICCV2025|[GEO-Bench-VLM](https://iccv.thecvf.com/virtual/2025/poster/2247)|[link](https://github.com/The-AI-Alliance/GEO-Bench-VLM)|Scene Understanding & Counting & Object Classification & Event Detection & Spatial Relations|\n|**Copernicus-Bench**|**Towards a Unified Copernicus Foundation Model for Earth Vision**|Arxiv2025|[Copernicus-Bench](https://arxiv.org/abs/2503.11849)|[link](https://github.com/zhu-xlab/Copernicus-FM)|Segmentation & Classification & Change detection & Regression|\n|**REOBench**|**REOBench: Benchmarking Robustness of Earth Observation Foundation Models**|Arxiv2025|[REOBench](https://arxiv.org/abs/2505.16793)|[link](https://github.com/lx709/REOBench)|Robustness across 6 Earth observation tasks|\n|**Plantation Bench**|**Plantation Bench: A Multiscale, Multimodal Remote Sensing Benchmark for Plantation Mapping Under Distribution Shift**|ICCVW2025|[Plantation Bench](https://doi.org/10.1109/iccvw69036.2025.00310)|null|Plantation Mapping under Distribution Shift|\n|**ChatEarthBench**|**ChatEarthBench: Benchmarking multimodal large language models for Earth observation**|IEEE GRSM2026|[ChatEarthBench](https://doi.org/10.1109/mgrs.2026.3650840)|null|Benchmarking EO multimodal large language models|\n|**GeoReason-Bench**|**GeoReason: Aligning Thinking And Answering In Remote Sensing Vision-Language Models Via Logical Consistency Reinforcement Learning**|Arxiv2026|[GeoReason-Bench](https://arxiv.org/abs/2601.04118)|[link](https://github.com/canlanqianyan/GeoReason)|Logical consistency & multi-step reasoning|\n|**Earth-Bench**|**Earth-Agent: Unlocking the Full Landscape of Earth Observation with Agents**|ICLR2026|[Earth-Bench](https://arxiv.org/abs/2509.23141)|[link](https://huggingface.co/datasets/Sssunset/Earth-Bench)|Tool-augmented EO reasoning & multi-step planning & quantitative spatiotemporal analysis|\n|**OmniEarth**|**OmniEarth: A Benchmark for Evaluating Vision-Language Models in Geospatial Tasks**|Arxiv2026|[OmniEarth](https://arxiv.org/abs/2603.09471)|[link](https://huggingface.co/datasets/sjeeudd/OmniEarth)|Perception & Reasoning & Robustness across geospatial tasks|\n\n\n## (Large-scale) Pre-training Datasets\n\n|Abbreviation|Title|Publication|Paper|Attribute|Link|\n|:---:|---|:---:|:---:|:---:|:---:|\n|**fMoW**|**Functional Map of the World**|CVPR2018|[fMoW](https://openaccess.thecvf.com/content_cvpr_2018/html/Christie_Functional_Map_of_CVPR_2018_paper.html)|**Vision**|[link](https://github.com/fMoW)|\n|**SEN12MS**|**SEN12MS -- A Curated Dataset of Georeferenced Multi-Spectral Sentinel-1/2 Imagery for Deep Learning and Data Fusion**|-|[SEN12MS](https://arxiv.org/abs/1906.07789)|**Vision**|[link](https://arxiv.org/abs/1906.07789)|\n|**BEN-MM**|**BigEarthNet-MM: A Large Scale Multi-Modal Multi-Label Benchmark Archive for Remote Sensing Image Classification and Retrieval**|GRSM2021|[BEN-MM](https://ieeexplore.ieee.org/abstract/document/9552024)|**Vision**|[link](https://ieeexplore.ieee.org/abstract/document/9552024)|\n|**MillionAID**|**On Creating Benchmark Dataset for Aerial Image Interpretation: Reviews, Guidances, and Million-AID**|JSTARS2021|[MillionAID](https://ieeexplore.ieee.org/abstract/document/9393553)|**Vision**|[link](https://captain-whu.github.io/DiRS/)|\n|**SeCo**|**Seasonal Contrast: Unsupervised Pre-Training From Uncurated Remote Sensing Data**|ICCV2021|[SeCo](https://openaccess.thecvf.com/content/ICCV2021/html/Manas_Seasonal_Contrast_Unsupervised_Pre-Training_From_Uncurated_Remote_Sensing_Data_ICCV_2021_paper.html)|**Vision**|[link](https://github.com/ServiceNow/seasonal-contrast)|\n|**fMoW-S2**|**SatMAE: Pre-training Transformers for Temporal and Multi-Spectral Satellite Imagery**|NeurIPS2022|[fMoW-S2](https://proceedings.neurips.cc/paper_files/paper/2022/hash/01c561df365429f33fcd7a7faa44c985-Abstract-Conference.html)|**Vision**|[link](https://purl.stanford.edu/vg497cb6002)|\n|**TOV-RS-Balanced**|**TOV: The original vision model for optical remote sensing image understanding via self-supervised learning**|JSTARS2023|[TOV](https://ieeexplore.ieee.org/abstract/document/10110958)|**Vision**|[link](https://github.com/GeoX-Lab/G-RSIM/tree/main/TOV_v1)|\n|**SSL4EO-S12**|**SSL4EO-S12: A Large-Scale Multi-Modal, Multi-Temporal Dataset for Self-Supervised Learning in Earth Observation**|GRSM2023|[SSL4EO-S12](https://arxiv.org/abs/2211.07044)|**Vision**|[link](https://github.com/zhu-xlab/SSL4EO-S12)|\n|**SSL4EO-L**|**SSL4EO-L: Datasets and Foundation Models for Landsat Imagery**|Arxiv2023|[SSL4EO-L](https://arxiv.org/abs/2306.09424)|**Vision**|[link](https://github.com/microsoft/torchgeo)|\n|**SatlasPretrain**|**SatlasPretrain: A Large-Scale Dataset for Remote Sensing Image Understanding**|ICCV2023|[SatlasPretrain](https://arxiv.org/abs/2211.15660)|**Vision (Supervised)**|[link](https://github.com/allenai/satlas/blob/main/SatlasPretrain.md)|\n|**CACo**|**Change-Aware Sampling and Contrastive Learning for Satellite Images**|CVPR2023|[CACo](https://openaccess.thecvf.com/content/CVPR2023/html/Mall_Change-Aware_Sampling_and_Contrastive_Learning_for_Satellite_Images_CVPR_2023_paper.html)|**Vision**|[Comming soon](https://github.com/utkarshmall13/CACo)|\n|**SAMRS**|**SAMRS: Scaling-up Remote Sensing Segmentation Dataset with Segment Anything Model**|NeurIPS2023|[SAMRS](https://arxiv.org/abs/2305.02034)|**Vision**|[link](https://github.com/ViTAE-Transformer/SAMRS)|\n|**RSVG**|**RSVG: Exploring Data and Models for Visual Grounding on Remote Sensing Data**|TGRS2023|[RSVG](https://ieeexplore.ieee.org/document/10056343)|**Vision-Language**|[link](https://github.com/ZhanYang-nwpu/RSVG-pytorch)|\n|**RS5M**|**RS5M: A Large Scale Vision-Language Dataset for Remote Sensing Vision-Language Foundation Model**|Arxiv2023|[RS5M](https://arxiv.org/abs/2306.11300)|**Vision-Language**|[link](https://github.com/om-ai-lab/RS5M)|\n|**GEO-Bench**|**GEO-Bench: Toward Foundation Models for Earth Monitoring**|Arxiv2023|[GEO-Bench](https://arxiv.org/abs/2306.03831)|**Vision (Evaluation)**|[link](https://github.com/ServiceNow/geo-bench)|\n|**RSICap & RSIEval**|**RSGPT: A Remote Sensing Vision Language Model and Benchmark**|Arxiv2023|[RSGPT](https://arxiv.org/abs/2307.15266)|**Vision-Language**|[Comming soon](https://github.com/Lavender105/RSGPT)|\n|**Clay**|**Clay Foundation Model**|-|null|**Vision**|[link](https://clay-foundation.github.io/model/)|\n|**SATIN**|**SATIN: A Multi-Task Metadataset for Classifying Satellite Imagery using Vision-Language Models**|ICCVW2023|[SATIN](https://arxiv.org/abs/2304.11619)|**Vision-Language**|[link](https://satinbenchmark.github.io/)|\n|**SkyScript**|**SkyScript: A Large and Semantically Diverse Vision-Language Dataset for Remote Sensing**|AAAI2024|[SkyScript](https://arxiv.org/abs/2312.12856)|**Vision-Language**|[link](https://github.com/wangzhecheng/SkyScript)|\n|**ChatEarthNet**|**ChatEarthNet: a global-scale image-text dataset empowering vision-language geo-foundation models**|ESSD2025|[ChatEarthNet](https://doi.org/10.5194/essd-17-1245-2025)|**Vision-Language**|[link](https://github.com/zhu-xlab/ChatEarthNet)|\n|**LuoJiaHOG**|**LuoJiaHOG: A hierarchy oriented geo-aware image caption dataset for remote sensing image-text retrieval**|ISPRS JPRS2025|[LuoJiaHOG](https://doi.org/10.1016/j.isprsjprs.2025.02.009)|**Vision-Language**|null|\n|**MMEarth**|**MMEarth: Exploring Multi-Modal Pretext Tasks For Geospatial Representation Learning**|Arxiv2024|[MMEarth](https://arxiv.org/abs/2405.02771)|**Vision**|[link](https://vishalned.github.io/mmearth/)|\n|**SeeFar**|**SeeFar: Satellite Agnostic Multi-Resolution Dataset for Geospatial Foundation Models**|Arxiv2024|[SeeFar](https://arxiv.org/abs/2406.06776)|**Vision**|[link](https://coastalcarbon.ai/seefar)|\n|**FIT-RS**|**SkySenseGPT: A Fine-Grained Instruction Tuning Dataset and Model for Remote Sensing Vision-Language Understanding**|Arxiv2024|[Paper](https://arxiv.org/abs/2406.10100)|**Vision-Language**|[link](https://github.com/Luo-Z13/SkySenseGPT)|\n|**RS-GPT4V**|**RS-GPT4V: A Unified Multimodal Instruction-Following Dataset for Remote Sensing Image Understanding**|Arxiv2024|[Paper](https://arxiv.org/abs/2406.12479)|**Vision-Language**|[link](https://github.com/GeoX-Lab/RS-GPT4V/tree/main)|\n|**RS-4M**|**Scaling Efficient Masked Autoencoder Learning on Large Remote Sensing Dataset**|Arxiv2024|[RS-4M](https://arxiv.org/abs/2406.11933)|**Vision**|[link](https://github.com/Fengxiang23/SelectiveMAE)|\n|**Major TOM**|**Major TOM: Expandable Datasets for Earth Observation**|Arxiv2024|[Major TOM](https://arxiv.org/abs/2402.12095)|**Vision**|[link](https://huggingface.co/Major-TOM)|\n|**VRSBench**|**VRSBench: A Versatile Vision-Language Benchmark Dataset for Remote Sensing Image Understanding**|Arxiv2024|[VRSBench](https://arxiv.org/abs/2406.12384)|**Vision-Language**|[link](https://vrsbench.github.io/)|\n|**MMM-RS**|**MMM-RS: A Multi-modal, Multi-GSD, Multi-scene Remote Sensing Dataset and Benchmark for Text-to-Image Generation**|Arxiv2024|[MMM-RS](https://arxiv.org/abs/2410.22362)|**Vision-Language**|[link](https://github.com/ljl5261/MMM-RS)|\n|**DDFAV**|**DDFAV: Remote Sensing Large Vision Language Models Dataset and Evaluation Benchmark**|RS2025|[DDFAV](https://doi.org/10.3390/rs17040719)|**Vision-Language**|[link](https://github.com/HaodongLi2024/rspope)|\n|**M3LEO**|**A Multi-Modal, Multi-Label Earth Observation Dataset Integrating Interferometric SAR and Multispectral Data**|NeurIPS2024|[M3LEO](https://proceedings.neurips.cc/paper_files/paper/2024/file/bd194b579f60879e04ca9ce8a4ea5da1-Paper-Datasets_and_Benchmarks_Track.pdf)|**Vision**|[link](https://github.com/spaceml-org/M3LEO)|\n|**Copernicus-Pretrain**|**Towards a Unified Copernicus Foundation Model for Earth Vision**|Arxiv2025|[Copernicus-Pretrain](https://arxiv.org/abs/2503.11849)|**Vision**|[link](https://github.com/zhu-xlab/Copernicus-FM)|\n|**DGTRSD**|**DGTRSD & DGTRS-CLIP: A Dual-Granularity Remote Sensing Image-Text Dataset and Vision Language Foundation Model for Alignment**|Arxiv2025|[Paper](https://arxiv.org/abs/2503.19311)|**Vision-Language**|[link](https://github.com/MitsuiChen14/DGTRS)|\n|**EarthDial-Instruct**|**EarthDial: Turning Multi-sensory Earth Observations to Interactive Dialogues**|CVPR2025|[Paper](https://arxiv.org/abs/2412.15190)|**Vision-Language**|[link](https://github.com/hiyamdebary/EarthDial)|\n|**GeoPixelD**|**GeoPixel: Pixel Grounding Large Multimodal Model in Remote Sensing**|ICML2025|[Paper](https://arxiv.org/abs/2501.13925)|**Vision-Language**|[link](https://github.com/mbzuai-oryx/GeoPixel)|\n|**GeoPixInstruct**|**GeoPix: Multi-Modal Large Language Model for Pixel-level Image Understanding in Remote Sensing**|IEEE GRSM2025|[Paper](https://arxiv.org/abs/2501.06828)|**Vision-Language**|[link](https://github.com/Norman-Ou/GeoPix)|\n|**GeoLangBind-2M**|**Rethinking Remote Sensing CLIP: Leveraging Multimodal Large Language Models for High-Quality Vision-Language Dataset**|ICONIP2024|[Paper](https://doi.org/10.1007/978-981-96-6972-1_29)|**Vision-Language**|[link](https://github.com/xiong-zhitong/GeoLB-SigLIP)|\n|**Falcon_SFT**|**Falcon: A Remote Sensing Vision-Language Foundation Model**|Arxiv2025|[Paper](https://arxiv.org/abs/2503.11070)|**Vision-Language**|[link](https://github.com/TianHuiLab/Falcon)|\n|**UnivEARTH**|**Towards LLM Agents for Earth Observation: The UnivEARTH Dataset**|Arxiv2025|[Paper](https://arxiv.org/abs/2504.12110)|**Vision-Language & Agents**|null|\n|**RemoteSAM-270K**|**RemoteSAM: Towards Segment Anything for Earth Observation**|ACMMM2025|[Paper](https://arxiv.org/abs/2505.18022)|**Vision-Language**|[link](https://github.com/1e12Leon/RemoteSAM)|\n|**OpenEarthAgent Dataset**|**OpenEarthAgent: A Unified Framework for Tool-Augmented Geospatial Agents**|Arxiv2026|[Paper](https://arxiv.org/abs/2602.17665)|**Vision-Language & Agents**|[link](https://github.com/mbzuai-oryx/OpenEarthAgent)|\n|**UHR-CoZ**|**GeoEyes: Geospatial Context-Zoom Agent for Long-Range Vision-Language Understanding on Ultra-High-Resolution Remote Sensing Images**|Arxiv2026|[Paper](https://arxiv.org/abs/2602.14201)|**Vision-Language**|[link](https://github.com/nanocm/GeoEyes)|\n\n## Embeddings data\n\n|Abbreviation|Title|Publication|Paper|Code|Dataset / Product|\n|:---:|---|:---:|:---:|:---:|:---:|\n|**CLAY Embeddings**|**Clay Model v0 Embeddings**|Source Cooperative2024|null|[link](https://github.com/Clay-foundation)|[link](https://source.coop/clay/clay-model-v0-embeddings)|\n|**Major TOM Embeddings**|**Global and Dense Embeddings of Earth: Major TOM Floating in the Latent Space**|Arxiv2024|[Paper](https://arxiv.org/abs/2412.05600)|[link](https://github.com/ESA-PhiLab/Major-TOM)|[link](https://huggingface.co/Major-TOM)|\n|**Earth Genome Embeddings**|**Embeddings for all**|Medium2025|[Paper](https://medium.com/earthrisemedia/embeddings-for-all-0e0a29415b26)|null|[link](https://source.coop/earthgenome/earthindexembeddings)|\n|**TESSERA**|**TESSERA: Precomputed FAIR Global Pixel Embeddings for Earth Representation and Analysis**|Arxiv2025|[Paper](https://arxiv.org/abs/2506.20380)|[link](https://github.com/ucam-eo/tessera)|[link](https://github.com/ucam-eo/geotessera)|\n|**AlphaEarth**|**AlphaEarth Foundations: An embedding field model for accurate and efficient global mapping from sparse label data**|Arxiv2025|[Paper](https://arxiv.org/abs/2507.22291)|null|[link](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL)|\n|**ESD**|**Democratizing planetary-scale analysis: An ultra-lightweight Earth embedding database for accurate and flexible global land monitoring**|Arxiv2026|[Paper](https://arxiv.org/abs/2601.11183)|[link](https://github.com/shuangchencc/ESD)|[link](https://data-starcloud.pcl.ac.cn/iearthdata/64)|\n\n# Relevant Projects\n*（TODO. This section is dedicated to recommending more relevant and impactful projects, with the hope of promoting the development of the RS community. :smile: :rocket:）*\n|Title|Link|Brief Introduction|\n|---|:---:|:---:|\n|**RSFMs (Remote Sensing Foundation Models) Playground**|[link](https://github.com/synativ/RSFMs)|An open-source playground to streamline the evaluation and fine-tuning of RSFMs on various datasets.|\n|**PANGAEA**|[link](https://github.com/yurujaja/pangaea-bench)|A Global and Inclusive Benchmark for Geospatial Foundation Models.|\n|**GeoFM**|[link](https://github.com/xiong-zhitong/GeoFM)|Evaluation of Foundation Models for Earth Observation.|\n|**EOUncertaintyGeneralization**|[link](https://github.com/Orion-AI-Lab/EOUncertaintyGeneralization)|On the Generalization of Representation Uncertainty in Earth Observation.|\n|**MAESTRO**|[link](https://github.com/IGNF/MAESTRO)|Official repository of MAESTRO for multimodal, multitemporal, and multispectral Earth observation pretraining.|\n|**AgriFM**|[link](https://github.com/flyakon/AgriFM)|Official repository of AgriFM for agricultural mapping with multi-source temporal remote sensing data.|\n|**DGTRS**|[link](https://github.com/MitsuiChen14/DGTRS)|Official repository of DGTRSD and DGTRS-CLIP for dual-granularity remote sensing image-text alignment.|\n|**FUSE-RSVLM**|[link](https://github.com/Yunkaidang/RSVLM)|Official repository for FUSE-RSVLM, a feature-fusion remote sensing vision-language model.|\n|**RSCoVLM**|[link](https://github.com/VisionXLab/RSCoVLM)|Official repository for RSCoVLM, a co-training remote sensing vision-language model for multi-task learning.|\n|**GeoReason**|[link](https://github.com/canlanqianyan/GeoReason)|Official repository for GeoReason and the GeoReason-Bench reasoning benchmark.|\n|**REOBench**|[link](https://github.com/lx709/REOBench)|Official repository of REOBench for robustness evaluation of Earth observation foundation models.|\n|**OpenEarthAgent**|[link](https://github.com/mbzuai-oryx/OpenEarthAgent)|Official repository for OpenEarthAgent and its large-scale tool-augmented geospatial agent dataset.|\n|**GeoEyes**|[link](https://github.com/nanocm/GeoEyes)|Official repository for GeoEyes and the UHR-CoZ ultra-high-resolution zoom-and-reason benchmark.|\n|**Earth-Agent**|[link](https://github.com/opendatalab/Earth-Agent)|Official repository for Earth-Agent and the associated Earth-Bench benchmark.|\n\n## Survey/Commentary Papers\n|Title|Publication|Paper|Attribute|\n|---|:---:|:---:|:---:|\n|**Self-Supervised Remote Sensing Feature Learning: Learning Paradigms, Challenges, and Future Works**|TGRS2023|[Paper](https://ieeexplore.ieee.org/abstract/document/10126079)|**Vision & Vision-Language**|\n|**The Potential of Visual ChatGPT For Remote Sensing**|Arxiv2023|[Paper](https://arxiv.org/abs/2304.13009)|**Vision-Language**|\n|**遥感大模型：进展与前瞻**|武汉大学学报 (信息科学版) 2023|[Paper](http://ch.whu.edu.cn/cn/article/doi/10.13203/j.whugis20230341?viewType=HTML)|**Vision & Vision-Language**|\n|**地理人工智能样本：模型、质量与服务**|武汉大学学报 (信息科学版) 2023|[Paper](http://ch.whu.edu.cn/article/id/5e67ed6a-aae5-4ec0-ad1b-f2aba89f4617)|**-**|\n|**Brain-Inspired Remote Sensing Foundation Models and Open Problems: A Comprehensive Survey**|JSTARS2023|[Paper](https://ieeexplore.ieee.org/abstract/document/10254282)|**Vision & Vision-Language**|\n|**Revisiting pre-trained remote sensing model benchmarks: resizing and normalization matters**|Arxiv2023|[Paper](https://arxiv.org/abs/2305.13456)|**Vision**|\n|**An Agenda for Multimodal Foundation Models for Earth Observation**|IGARSS2023|[Paper](https://ieeexplore.ieee.org/abstract/document/10282966)|**Vision**|\n|**Transfer learning in environmental remote sensing**|RSE2024|[Paper](https://www.sciencedirect.com/science/article/pii/S0034425723004765)|**Transfer learning**|\n|**遥感基础模型发展综述与未来设想**|遥感学报2023|[Paper](https://www.ygxb.ac.cn/zh/article/doi/10.11834/jrs.20233313/)|**-**|\n|**On the Promises and Challenges of Multimodal Foundation Models for Geographical, Environmental, Agricultural, and Urban Planning Applications**|Arxiv2023|[Paper](https://arxiv.org/abs/2312.17016)|**Vision-Language**|\n|**Vision-Language Models in Remote Sensing: Current Progress and Future Trends**|IEEE GRSM2024|[Paper](https://arxiv.org/abs/2305.05726)|**Vision-Language**|\n|**On the Foundations of Earth and Climate Foundation Models**|Arxiv2024|[Paper](https://arxiv.org/abs/2405.04285)|**Vision & Vision-Language**|\n|**Towards Vision-Language Geo-Foundation Model: A Survey**|Arxiv2024|[Paper](https://arxiv.org/abs/2406.09385)|**Vision-Language**|\n|**AI Foundation Models in Remote Sensing: A Survey**|Arxiv2024|[Paper](https://arxiv.org/abs/2408.03464)|**Vision**|\n|**Foundation model for generalist remote sensing intelligence: Potentials and prospects**|Science Bulletin2024|[Paper](https://www.sciencedirect.com/science/article/pii/S2095927324006510?via%3Dihub)|**-**|\n|**Advancements in Visual Language Models for Remote Sensing: Datasets, Capabilities, and Enhancement Techniques**|Arxiv2024|[Paper](https://arxiv.org/abs/2410.17283)|**Vision-Language**|\n|**Foundation Models for Remote Sensing and Earth Observation: A survey**|IEEE GRSM2025|[Paper](https://doi.org/10.1109/mgrs.2025.3576766)|**Vision & Vision-Language**|\n|**When Remote Sensing Meets Foundation Model: A Survey and Beyond**|RS2025|[Paper](https://doi.org/10.3390/rs17020179)|**Vision & Vision-Language & Generative & Agents**|\n|**Vision-Language Modeling Meets Remote Sensing: Models, datasets, and perspectives**|IEEE GRSM2025|[Paper](https://doi.org/10.1109/mgrs.2025.3572702)|**Vision-Language**|\n|**Advances on Multimodal Remote Sensing Foundation Models for Earth Observation Downstream Tasks: A Survey**|RS2025|[Paper](https://doi.org/10.3390/rs17213532)|**Vision & Vision-Language**|\n|**Remote Sensing Tuning: A Survey**|CVM2025|[Paper](https://doi.org/10.26599/cvm.2025.9450490)|**Vision & Vision-Language**|\n|**多模态遥感基础大模型：研究现状与未来展望**|测绘学报2024|[Paper](http://xb.chinasmp.com/CN/10.11947/j.AGCS.2024.20240019.)|**Vision & Vision-Language & Generative & Vision-Location**|\n|**When Geoscience Meets Foundation Models: Toward a general geoscience artificial intelligence system**|IEEE GRSM2024|[Paper](https://ieeexplore.ieee.org/abstract/document/10770814)|**Vision & Vision-Language**|\n|**Towards the next generation of Geospatial Artificial Intelligence**|JAG2025|[Paper](https://www.sciencedirect.com/science/article/pii/S1569843225000159)|**-**|\n|**Vision Foundation Models in Remote Sensing: A survey**|IEEE GRSM2025|[Paper](https://ieeexplore.ieee.org/abstract/document/10916803)|**Vision**|\n|**MIMRS: A Survey on Masked Image Modeling in Remote Sensing**|IGARSS2025|[Paper](https://doi.org/10.1109/igarss55030.2025.11243448)|**Vision**|\n|**A Review of Challenges and Applications in Remote Sensing Foundation Models**|IGARSS2025|[Paper](https://doi.org/10.1109/igarss55030.2025.11242732)|**Vision & Vision-Language**|\n|**Unleashing the potential of remote sensing foundation models via bridging data and computility islands**|The Innovation2025|[Paper](https://www.cell.com/the-innovation/fulltext/S2666-6758(25)00044-X)|**-**|\n|**A Survey on Remote Sensing Foundation Models: From Vision to Multimodality**|Arxiv2025|[Paper](https://arxiv.org/abs/2503.22081)|**-**|\n|**A Genealogy of Foundation Models in Remote Sensing**|ACM TSAS2026|[Paper](https://doi.org/10.1145/3789505)|**Vision & Vision-Language**|\n|**Onboard Deployment of Remote Sensing Foundation Models: A Comprehensive Review of Architecture, Optimization, and Hardware**|RS2026|[Paper](https://doi.org/10.3390/rs18020298)|**Vision & Vision-Language**|\n|**On the foundations of Earth foundation models**|Communications Earth & Environment 2026|[Paper](https://doi.org/10.1038/s43247-025-03127-x)|**Vision & Vision-Language**|\n\n\n## Citation\n\nIf you find this repository useful, please consider giving a star :star: and citation:\n\n```\n@inproceedings{guo2024skysense,\n  title={Skysense: A multi-modal remote sensing foundation model towards universal interpretation for earth observation imagery},\n  author={Guo, Xin and Lao, Jiangwei and Dang, Bo and Zhang, Yingying and Yu, Lei and Ru, Lixiang and Zhong, Liheng and Huang, Ziyuan and Wu, Kang and Hu, Dingxiang and others},\n  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},\n  pages={27672--27683},\n  year={2024}\n}\n\n@article{li2025unleashing,\n  title={Unleashing the potential of remote sensing foundation models via bridging data and computility islands},\n  author={Li, Yansheng and Tan, Jieyi and Dang, Bo and Ye, Mang and Bartalev, Sergey A and Shinkarenko, Stanislav and Wang, Linlin and Zhang, Yingying and Ru, Lixiang and Guo, Xin and others},\n  journal={The Innovation},\n  year={2025},\n  publisher={Elsevier}\n}\n\n@article{wu2025semantic,\n  author = {Wu, Kang and Zhang, Yingying and Ru, Lixiang and Dang, Bo and Lao, Jiangwei and Yu, Lei and Luo, Junwei and Zhu, Zifan and Sun, Yue and Zhang, Jiahao and Zhu, Qi and Wang, Jian and Yang, Ming and Chen, Jingdong and Zhang, Yongjun and Li, Yansheng},\n  title= {A semantic‑enhanced multi‑modal remote sensing foundation model for Earth observation},\n  journal= {Nature Machine Intelligence},\n  year= {2025},\n  doi= {10.1038/s42256-025-01078-8},\n  url= {https://doi.org/10.1038/s42256-025-01078-8}\n}\n\n@inproceedings{zhu2025skysense,\n  title={Skysense-o: Towards open-world remote sensing interpretation with vision-centric visual-language modeling},\n  author={Zhu, Qi and Lao, Jiangwei and Ji, Deyi and Luo, Junwei and Wu, Kang and Zhang, Yingying and Ru, Lixiang and Wang, Jian and Chen, Jingdong and Yang, Ming and others},\n  booktitle={Proceedings of the Computer Vision and Pattern Recognition Conference},\n  pages={14733--14744},\n  year={2025}\n}\n\n@article{luo2024skysensegpt,\n  title={Skysensegpt: A fine-grained instruction tuning dataset and model for remote sensing vision-language understanding},\n  author={Luo, Junwei and Pang, Zhen and Zhang, Yongjun and Wang, Tingzhu and Wang, Linlin and Dang, Bo and Lao, Jiangwei and Wang, Jian and Chen, Jingdong and Tan, Yihua and others},\n  journal={arXiv preprint arXiv:2406.10100},\n  year={2024}\n}\n```\n"
+};
+    </script>
+    <script>
+(function () {
+  const config = window.RSFM_SITE_CONFIG || {};
+  const data = window.RSFM_SITE_DATA || null;
+  const sectionsPanel = document.getElementById("sectionsPanel");
+  const updatesPanel = document.getElementById("updatesPanel");
+  const citationPanel = document.getElementById("citationPanel");
+  const sectionNav = document.getElementById("sectionNav");
+  const statsGrid = document.getElementById("statsGrid");
+  const resultsSummary = document.getElementById("resultsSummary");
+  const navMeta = document.getElementById("navMeta");
+  const titleNode = document.getElementById("siteTitle");
+  const descriptionNode = document.getElementById("siteDescription");
+  const sourceRepoLink = document.getElementById("sourceRepoLink");
+  const sourceReadmeLink = document.getElementById("sourceReadmeLink");
+  const searchInput = document.getElementById("searchInput");
+  const sectionFilter = document.getElementById("sectionFilter");
+  const onlyOfficial = document.getElementById("onlyOfficial");
+  const onlyCode = document.getElementById("onlyCode");
+  const clearFilters = document.getElementById("clearFilters");
+
+  let parsed = null;
+  let catalogSections = [];
+  let updatesSection = null;
+  let citationSection = null;
+  let allRows = [];
+  const state = {
+    query: "",
+    section: "all",
+    officialOnly: false,
+    codeOnly: false,
+  };
+  let isBound = false;
+
+  primeStaticShell();
+  init().catch(function (error) {
+    renderLoadError(error);
+  });
+
+  async function init() {
+    const loaded = await loadCatalog();
+    parsed = parseMarkdownDocument(loaded.markdown);
+    catalogSections = parsed.sections.filter(function (section) {
+      return !["latest-updates", "table-of-contents", "citation"].includes(section.slug);
+    });
+    updatesSection = parsed.sections.find(function (section) {
+      return section.slug === "latest-updates";
+    });
+    citationSection = parsed.sections.find(function (section) {
+      return section.slug === "citation";
+    });
+    allRows = flattenRows(catalogSections);
+
+    titleNode.textContent = config.siteTitle || parsed.title;
+    document.title = config.siteTitle || parsed.title;
+    descriptionNode.textContent = parsed.description;
+    renderStats();
+    renderUpdates();
+    renderFilterOptions();
+    renderNav(catalogSections);
+    renderCatalog();
+    syncNavActive();
+    bindEvents();
+  }
+
+  function primeStaticShell() {
+    const siteTitle = config.siteTitle || "Awesome Remote Sensing Foundation Models";
+    titleNode.textContent = siteTitle;
+    document.title = siteTitle;
+    if (sourceRepoLink) {
+      sourceRepoLink.href = config.sourceRepoUrl || "#";
+    }
+    if (sourceReadmeLink) {
+      sourceReadmeLink.href = config.sourceReadmeWebUrl || config.sourceRepoUrl || "#";
+    }
+  }
+
+  async function loadCatalog() {
+    const candidates = [];
+    const configuredSources = Array.isArray(config.markdownSources) ? config.markdownSources : [];
+    configuredSources.forEach(function (url) {
+      candidates.push({ type: "remote", url: url });
+    });
+
+    if (data && data.markdown) {
+      candidates.push({ type: "inline", markdown: data.markdown });
+    }
+
+    for (let index = 0; index < candidates.length; index += 1) {
+      const candidate = candidates[index];
+      if (candidate.type === "inline") {
+        return { markdown: candidate.markdown, source: "embedded fallback" };
+      }
+
+      try {
+        const response = await fetch(candidate.url, { cache: "no-store" });
+        if (!response.ok) {
+          continue;
+        }
+        return { markdown: await response.text(), source: candidate.url };
+      } catch (error) {
+        continue;
+      }
+    }
+
+    throw new Error("Unable to load the source README from GitHub or local fallback.");
+  }
+
+  function bindEvents() {
+    if (isBound) {
+      return;
+    }
+    isBound = true;
+
+    searchInput.addEventListener("input", function (event) {
+      state.query = event.target.value.trim().toLowerCase();
+      renderCatalog();
+    });
+
+    sectionFilter.addEventListener("change", function (event) {
+      state.section = event.target.value;
+      renderCatalog();
+      syncNavActive();
+      if (state.section !== "all") {
+        requestAnimationFrame(function () {
+          const target = document.getElementById(state.section);
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      }
+    });
+
+    onlyOfficial.addEventListener("change", function (event) {
+      state.officialOnly = event.target.checked;
+      renderCatalog();
+    });
+
+    onlyCode.addEventListener("change", function (event) {
+      state.codeOnly = event.target.checked;
+      renderCatalog();
+    });
+
+    clearFilters.addEventListener("click", function () {
+      state.query = "";
+      state.section = "all";
+      state.officialOnly = false;
+      state.codeOnly = false;
+      searchInput.value = "";
+      sectionFilter.value = "all";
+      onlyOfficial.checked = false;
+      onlyCode.checked = false;
+      renderCatalog();
+      syncNavActive();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    sectionNav.addEventListener("click", function (event) {
+      const link = event.target.closest("a[data-section]");
+      if (!link) {
+        return;
+      }
+      sectionNav.querySelectorAll("a").forEach(function (node) {
+        node.classList.remove("active");
+      });
+      link.classList.add("active");
+      state.section = link.dataset.section;
+      sectionFilter.value = state.section;
+      renderCatalog();
+      syncNavActive();
+    });
+
+    citationPanel.addEventListener("click", function (event) {
+      const button = event.target.closest("[data-copy-citation]");
+      if (!button || !citationSection) {
+        return;
+      }
+      const codeBlock = citationPanel.querySelector("code");
+      const status = citationPanel.querySelector(".copy-status");
+      if (!codeBlock) {
+        return;
+      }
+      if (!navigator.clipboard || !navigator.clipboard.writeText) {
+        if (status) {
+          status.textContent = "Clipboard access is unavailable here. Please copy the citation manually.";
+        }
+        return;
+      }
+      navigator.clipboard.writeText(codeBlock.textContent || "").then(
+        function () {
+          if (status) {
+            status.textContent = "Citation copied.";
+          }
+        },
+        function () {
+          if (status) {
+            status.textContent = "Clipboard copy failed. Please copy manually.";
+          }
+        }
+      );
+    });
+
+    window.addEventListener(
+      "scroll",
+      throttle(function () {
+        const anchors = catalogSections.map(function (section) {
+          return {
+            slug: section.slug,
+            node: document.getElementById(section.slug),
+          };
+        });
+        const current = findLastMatching(anchors, function (entry) {
+          return entry.node && entry.node.getBoundingClientRect().top <= 160;
+        });
+        if (!current) {
+          return;
+        }
+        sectionNav.querySelectorAll("a").forEach(function (link) {
+          link.classList.toggle("active", link.dataset.section === current.slug);
+        });
+      }, 120)
+    );
+  }
+
+  function renderStats() {
+    const officialCount = allRows.filter(function (row) {
+      return row.isOfficial;
+    }).length;
+    const codeCount = allRows.filter(function (row) {
+      return row.hasCode;
+    }).length;
+    const stats = [
+      { value: formatNumber(allRows.length), label: "catalog entries" },
+      { value: formatNumber(catalogSections.length), label: "major sections" },
+      { value: formatNumber(officialCount), label: "official publications" },
+      { value: formatNumber(codeCount), label: "with code or weights" },
+    ];
+    statsGrid.innerHTML = stats
+      .map(function (item) {
+        return (
+          '<article class="stat-card"><strong>' +
+          item.value +
+          "</strong><span>" +
+          item.label +
+          "</span></article>"
+        );
+      })
+      .join("");
+  }
+
+  function renderUpdates() {
+    if (!updatesSection) {
+      updatesPanel.remove();
+      return;
+    }
+
+    const paragraphBlock = updatesSection.blocks.find(function (block) {
+      return block.type === "paragraph";
+    });
+    const listBlock = updatesSection.blocks.find(function (block) {
+      return block.type === "list";
+    });
+    const items = listBlock ? listBlock.items : [];
+
+    updatesPanel.innerHTML =
+      '<div class="section-header"><div class="section-title-group"><p class="eyebrow">Latest Updates</p><h2>What changed in the catalog</h2></div><div class="section-meta"><span class="stat-chip">' +
+      escapeHtml(extractLastUpdated(parsed.raw) || "") +
+      "</span></div></div>" +
+      (paragraphBlock
+        ? '<p class="markdown-paragraph">' + paragraphBlock.html + "</p>"
+        : "") +
+      '<div class="updates-list">' +
+      items
+        .map(function (item) {
+          return (
+            '<article class="update-item"><p class="update-date">' +
+            escapeHtml(item.meta || "Update") +
+            '</p><p class="markdown-paragraph">' +
+            item.html +
+            "</p></article>"
+          );
+        })
+        .join("") +
+      "</div>";
+  }
+
+  function renderFilterOptions() {
+    const options = ['<option value="all">All sections</option>']
+      .concat(
+        catalogSections.map(function (section) {
+          return (
+            '<option value="' +
+            section.slug +
+            '">' +
+            escapeHtml(section.titleText) +
+            "</option>"
+          );
+        })
+      )
+      .join("");
+    sectionFilter.innerHTML = options;
+  }
+
+  function renderNav(sections) {
+    navMeta.textContent = formatNumber(sections.length) + " browsable sections";
+    sectionNav.innerHTML = sections
+      .map(function (section, index) {
+        return (
+          '<a href="#' +
+          section.slug +
+          '" data-section="' +
+          section.slug +
+          '" class="' +
+          (index === 0 ? "active" : "") +
+          '">' +
+          "<span>" +
+          escapeHtml(section.titleText) +
+          '</span><span class="nav-count">' +
+          formatNumber(section.entryCount) +
+          "</span></a>"
+        );
+      })
+      .join("");
+  }
+
+  function renderCatalog() {
+    const visibleSections = catalogSections
+      .map(filterSection)
+      .filter(function (section) {
+        return section !== null;
+      });
+
+    const visibleRows = flattenRows(visibleSections);
+    resultsSummary.textContent =
+      formatNumber(visibleRows.length) +
+      " visible entries across " +
+      formatNumber(visibleSections.length) +
+      " sections";
+
+    if (!visibleSections.length) {
+      sectionsPanel.innerHTML =
+        '<section class="panel empty-state">No entries match the current filters. Try broadening the query or clearing the toggles.</section>';
+    } else {
+      sectionsPanel.innerHTML = visibleSections.map(renderSection).join("");
+    }
+
+    renderCitation();
+  }
+
+  function renderCitation() {
+    if (!citationSection) {
+      citationPanel.innerHTML = "";
+      return;
+    }
+
+    const codeBlock = citationSection.blocks.find(function (block) {
+      return block.type === "code";
+    });
+    const paragraph = citationSection.blocks.find(function (block) {
+      return block.type === "paragraph";
+    });
+    citationPanel.innerHTML =
+      '<section id="citation" class="panel citation-panel">' +
+      '<div class="section-header"><div class="section-title-group"><p class="eyebrow">Citation</p><h2>Reuse the repository citation</h2></div></div>' +
+      (paragraph ? '<p class="markdown-paragraph">' + paragraph.html + "</p>" : "") +
+      (codeBlock ? "<pre><code>" + escapeHtml(codeBlock.content.trim()) + "</code></pre>" : "") +
+      '<div class="citation-actions"><button class="copy-button" type="button" data-copy-citation>Copy citation</button><span class="copy-status"></span></div>' +
+      "</section>";
+  }
+
+  function filterSection(section) {
+    if (state.section !== "all" && section.slug !== state.section) {
+      return null;
+    }
+
+    let visibleRowCount = 0;
+    const blocks = section.blocks
+      .map(function (block) {
+        if (block.type !== "table") {
+          return block;
+        }
+
+        const rows = block.rows.filter(matchesRow);
+        visibleRowCount += rows.length;
+        return Object.assign({}, block, { rows: rows });
+      })
+      .filter(function (block) {
+        return block.type !== "table" || block.rows.length > 0;
+      });
+
+    if ((state.query || state.codeOnly || state.officialOnly) && visibleRowCount === 0) {
+      return null;
+    }
+
+    return Object.assign({}, section, {
+      blocks: blocks,
+      entryCount: visibleRowCount || section.entryCount,
+    });
+  }
+
+  function matchesRow(row) {
+    if (state.query && !row.searchText.includes(state.query)) {
+      return false;
+    }
+    if (state.officialOnly && !row.isOfficial) {
+      return false;
+    }
+    if (state.codeOnly && !row.hasCode) {
+      return false;
+    }
+    return true;
+  }
+
+  function renderSection(section) {
+    const categoryLabel = categoryFromTitle(section.titleText);
+    const intro = section.blocks.find(function (block) {
+      return block.type === "paragraph";
+    });
+    return (
+      '<section id="' +
+      section.slug +
+      '" class="panel content-section">' +
+      '<div class="section-header"><div class="section-title-group"><p class="eyebrow">' +
+      escapeHtml(categoryLabel) +
+      "</p><h2>" +
+      section.titleHtml +
+      '</h2></div><div class="section-meta"><span class="stat-chip">' +
+      formatNumber(section.entryCount) +
+      ' entries</span></div></div>' +
+      (intro ? '<p class="markdown-paragraph">' + intro.html + "</p>" : "") +
+      section.blocks
+        .filter(function (block) {
+          return block.type !== "paragraph";
+        })
+        .map(renderBlock)
+        .join("") +
+      "</section>"
+    );
+  }
+
+  function renderBlock(block) {
+    if (block.type === "list") {
+      return (
+        '<div class="updates-list">' +
+        block.items
+          .map(function (item) {
+            return '<article class="update-item"><p class="markdown-paragraph">' + item.html + "</p></article>";
+          })
+          .join("") +
+        "</div>"
+      );
+    }
+
+    if (block.type === "table") {
+      return (
+        '<div class="table-wrap"><div class="table-scroll"><table><thead><tr>' +
+        block.headers
+          .map(function (header) {
+            return "<th>" + escapeHtml(stripMarkdown(header)) + "</th>";
+          })
+          .join("") +
+        "</tr></thead><tbody>" +
+        block.rows
+          .map(function (row) {
+            return (
+              "<tr>" +
+              row.cells
+                .map(function (cell) {
+                  return (
+                    '<td data-label="' +
+                    escapeHtml(stripMarkdown(cell.header)) +
+                    '">' +
+                    formatCell(cell.value) +
+                    "</td>"
+                  );
+                })
+                .join("") +
+              "</tr>"
+            );
+          })
+          .join("") +
+        "</tbody></table></div></div>"
+      );
+    }
+
+    if (block.type === "code") {
+      return "<pre><code>" + escapeHtml(block.content) + "</code></pre>";
+    }
+
+    return '<p class="markdown-paragraph">' + block.html + "</p>";
+  }
+
+  function parseMarkdownDocument(markdown) {
+    const normalized = markdown.replace(/\r\n/g, "\n");
+    const lines = normalized.split("\n");
+    const titleLine = lines.find(function (line) {
+      return line.startsWith("# ");
+    });
+    const title = stripMarkdown((titleLine || "").replace(/^#\s+/, "")) || "Awesome Remote Sensing Foundation Models";
+    const descriptionLine = lines.find(function (line) {
+      return /A collection of papers, datasets, benchmarks/i.test(line);
+    });
+    const description =
+      stripMarkdown(descriptionLine || "") ||
+      "A curated collection of remote sensing foundation models, datasets, benchmarks, code, and survey papers.";
+
+    const sections = [];
+    let current = null;
+
+    lines.forEach(function (line) {
+      if (line.startsWith("## ")) {
+        if (current) {
+          current.blocks = parseBlocks(current.lines);
+          current.titleText = stripMarkdown(current.title);
+          current.titleHtml = inlineMarkdownToHtml(current.title);
+          current.slug = slugify(current.titleText);
+          current.entryCount = countRows(current.blocks);
+          current.raw = current.lines.join("\n");
+          sections.push(current);
+        }
+        current = { title: line.replace(/^##\s+/, "").trim(), lines: [] };
+      } else if (current) {
+        current.lines.push(line);
+      }
+    });
+
+    if (current) {
+      current.blocks = parseBlocks(current.lines);
+      current.titleText = stripMarkdown(current.title);
+      current.titleHtml = inlineMarkdownToHtml(current.title);
+      current.slug = slugify(current.titleText);
+      current.entryCount = countRows(current.blocks);
+      current.raw = current.lines.join("\n");
+      sections.push(current);
+    }
+
+    return {
+      raw: normalized,
+      title: title,
+      description: description,
+      sections: sections,
+    };
+  }
+
+  function parseBlocks(lines) {
+    const blocks = [];
+    let index = 0;
+
+    while (index < lines.length) {
+      const line = lines[index];
+      if (!line || !line.trim()) {
+        index += 1;
+        continue;
+      }
+
+      if (line.startsWith("```")) {
+        const fence = line.trim();
+        const collected = [];
+        index += 1;
+        while (index < lines.length && lines[index].trim() !== fence) {
+          collected.push(lines[index]);
+          index += 1;
+        }
+        index += 1;
+        blocks.push({ type: "code", content: collected.join("\n") });
+        continue;
+      }
+
+      if (isTableStart(lines, index)) {
+        const tableLines = [];
+        while (index < lines.length && /^\|/.test(lines[index].trim())) {
+          tableLines.push(lines[index]);
+          index += 1;
+        }
+        blocks.push(parseTable(tableLines));
+        continue;
+      }
+
+      if (/^\s*-\s+/.test(line)) {
+        const items = [];
+        while (index < lines.length && /^\s*-\s+/.test(lines[index])) {
+          const rawItem = lines[index].replace(/^\s*-\s+/, "");
+          const match = rawItem.match(/^\*\*(\d{4}\.\d{2}\.\d{2})\*\*:\s*(.*)$/);
+          items.push({
+            meta: match ? match[1] : "",
+            html: inlineMarkdownToHtml(match ? match[2] : rawItem),
+            text: stripMarkdown(match ? match[2] : rawItem),
+          });
+          index += 1;
+        }
+        blocks.push({ type: "list", items: items });
+        continue;
+      }
+
+      const paragraphLines = [];
+      while (
+        index < lines.length &&
+        lines[index].trim() &&
+        !lines[index].startsWith("```") &&
+        !isTableStart(lines, index) &&
+        !/^\s*-\s+/.test(lines[index])
+      ) {
+        paragraphLines.push(lines[index].trim());
+        index += 1;
+      }
+      blocks.push({
+        type: "paragraph",
+        text: stripMarkdown(paragraphLines.join(" ")),
+        html: inlineMarkdownToHtml(paragraphLines.join(" ")),
+      });
+    }
+
+    return blocks;
+  }
+
+  function parseTable(lines) {
+    const headers = splitTableRow(lines[0]);
+    const rows = lines.slice(2).map(function (line) {
+      const values = splitTableRow(line);
+      const cells = headers.map(function (header, index) {
+        return {
+          header: header,
+          value: values[index] || "null",
+        };
+      });
+      const mapped = mapCells(cells);
+      return Object.assign(mapped, {
+        cells: cells,
+        searchText: buildSearchText(cells),
+        hasCode: detectHasCode(mapped),
+        isOfficial: detectOfficial(mapped.publication),
+      });
+    });
+
+    return { type: "table", headers: headers, rows: rows };
+  }
+
+  function mapCells(cells) {
+    const mapped = {};
+    cells.forEach(function (cell) {
+      mapped[slugify(stripMarkdown(cell.header)).replace(/-/g, "_")] = cell.value;
+    });
+    return mapped;
+  }
+
+  function splitTableRow(line) {
+    return line
+      .trim()
+      .replace(/^\|/, "")
+      .replace(/\|$/, "")
+      .split("|")
+      .map(function (cell) {
+        return cell.trim();
+      });
+  }
+
+  function isTableStart(lines, index) {
+    return /^\|/.test((lines[index] || "").trim()) && /^\|\s*:?[-]+/.test((lines[index + 1] || "").trim());
+  }
+
+  function buildSearchText(cells) {
+    return cells
+      .map(function (cell) {
+        return stripMarkdown(cell.value);
+      })
+      .join(" ")
+      .toLowerCase();
+  }
+
+  function detectHasCode(row) {
+    const value = row.code_and_weights || row.code_weights || row.code || "";
+    return Boolean(value) && !/^(null|-)+$/i.test(stripMarkdown(value));
+  }
+
+  function detectOfficial(publication) {
+    const value = stripMarkdown(publication || "").toLowerCase();
+    if (!value || value === "null" || value === "-") {
+      return false;
+    }
+    return !value.includes("arxiv") && !value.includes("github");
+  }
+
+  function countRows(blocks) {
+    return blocks.reduce(function (sum, block) {
+      return sum + (block.type === "table" ? block.rows.length : 0);
+    }, 0);
+  }
+
+  function flattenRows(sections) {
+    return sections.reduce(function (rows, section) {
+      return rows.concat(
+        section.blocks.reduce(function (sectionRows, block) {
+          return block.type === "table" ? sectionRows.concat(block.rows) : sectionRows;
+        }, [])
+      );
+    }, []);
+  }
+
+  function formatCell(value) {
+    const cleanValue = stripMarkdown(value);
+    if (!cleanValue || /^null$/i.test(cleanValue)) {
+      return '<span class="cell-muted">-</span>';
+    }
+
+    return inlineMarkdownToHtml(value);
+  }
+
+  function inlineMarkdownToHtml(text) {
+    const shortcodeMap = {
+      ":fire:": "",
+      ":star2:": "",
+    };
+    let html = escapeHtml(text || "");
+    Object.keys(shortcodeMap).forEach(function (code) {
+      html = html.split(code).join(shortcodeMap[code]);
+    });
+    html = html.replace(/\s{2,}/g, " ").trim();
+    html = html.replace(/&lt;(\/?ins)&gt;/g, "<$1>");
+    html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+    html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+    return html;
+  }
+
+  function stripMarkdown(text) {
+    return (text || "")
+      .replace(/!\[[^\]]*]\([^)]*\)/g, "")
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+      .replace(/`([^`]+)`/g, "$1")
+      .replace(/\*\*([^*]+)\*\*/g, "$1")
+      .replace(/\*([^*]+)\*/g, "$1")
+      .replace(/<[^>]+>/g, "")
+      .replace(/:\w+:/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function extractLastUpdated(markdown) {
+    const match = markdown.match(/Last Updated on (\d{4}\.\d{2}\.\d{2})/);
+    return match ? match[1] : "";
+  }
+
+  function categoryFromTitle(title) {
+    if (/benchmark|dataset|embedding/i.test(title)) {
+      return "Datasets & Benchmarks";
+    }
+    if (/survey/i.test(title)) {
+      return "Survey / Commentary";
+    }
+    if (/agent/i.test(title)) {
+      return "Agents";
+    }
+    return "Models";
+  }
+
+  function slugify(text) {
+    return stripMarkdown(text)
+      .toLowerCase()
+      .replace(/&/g, " and ")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function formatNumber(value) {
+    return new Intl.NumberFormat("en-US").format(value);
+  }
+
+  function escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function throttle(callback, wait) {
+    let timeoutId = null;
+    let lastArgs = null;
+    return function throttled() {
+      lastArgs = arguments;
+      if (timeoutId) {
+        return;
+      }
+      callback.apply(null, lastArgs);
+      timeoutId = setTimeout(function () {
+        timeoutId = null;
+      }, wait);
+    };
+  }
+
+  function findLastMatching(items, predicate) {
+    for (let index = items.length - 1; index >= 0; index -= 1) {
+      if (predicate(items[index])) {
+        return items[index];
+      }
+    }
+    return null;
+  }
+
+  function syncNavActive() {
+    const links = sectionNav.querySelectorAll("a[data-section]");
+    links.forEach(function (link, index) {
+      const isActive = state.section === "all" ? index === 0 : link.dataset.section === state.section;
+      link.classList.toggle("active", isActive);
+    });
+  }
+
+  function renderLoadError(error) {
+    const message = error && error.message ? error.message : "Unknown loading error.";
+    sectionsPanel.innerHTML =
+      '<section class="empty-state">Unable to load the source markdown. ' +
+      escapeHtml(message) +
+      "</section>";
+    updatesPanel.innerHTML = "";
+    citationPanel.innerHTML = "";
+    resultsSummary.textContent = "Catalog unavailable";
+    statsGrid.innerHTML = "";
+    navMeta.textContent = "Markdown loading failed";
+  }
+})();
+
+    </script>
+  </body>
+</html>
